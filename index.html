@@ -23,7 +23,6 @@
       --radius-lg: 16px;
       --radius-md: 12px;
       --radius-pill: 999px;
-      --shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
     }
 
     html.dark {
@@ -40,7 +39,6 @@
       --chip-active-text: #0d0d0d;
       --danger: #ff453a;
       --success: #30d158;
-      --shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
     }
 
     * {
@@ -51,12 +49,11 @@
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", Roboto, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       background-color: var(--bg);
       color: var(--text);
       line-height: 1.4;
       padding-bottom: 92px;
-      transition: background-color 0.2s ease, color 0.2s ease;
     }
 
     .container {
@@ -65,7 +62,6 @@
       padding: 16px;
     }
 
-    /* Header */
     .header {
       display: flex;
       align-items: center;
@@ -76,7 +72,6 @@
     .header-title {
       font-size: 22px;
       font-weight: 700;
-      letter-spacing: -0.02em;
     }
 
     .status-pill {
@@ -96,15 +91,12 @@
       height: 7px;
       border-radius: 50%;
       background-color: var(--success);
-      box-shadow: 0 0 8px var(--success);
     }
 
     .status-dot.paused {
       background-color: var(--text-secondary);
-      box-shadow: none;
     }
 
-    /* Tabs */
     .tabs {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -124,7 +116,6 @@
       padding: 8px 4px;
       border-radius: 9px;
       cursor: pointer;
-      transition: all 0.2s ease;
     }
 
     .tab-btn.active {
@@ -140,7 +131,6 @@
       display: block;
     }
 
-    /* Filter Cards */
     .section-header {
       display: flex;
       justify-content: space-between;
@@ -153,7 +143,6 @@
       font-weight: 600;
       color: var(--text-secondary);
       text-transform: uppercase;
-      letter-spacing: 0.04em;
     }
 
     .add-btn {
@@ -173,8 +162,6 @@
       border-radius: var(--radius-lg);
       padding: 16px;
       margin-bottom: 12px;
-      box-shadow: var(--shadow);
-      transition: opacity 0.2s ease;
     }
 
     .filter-card.inactive {
@@ -191,7 +178,6 @@
     .filter-brand {
       font-size: 17px;
       font-weight: 700;
-      letter-spacing: -0.01em;
     }
 
     .filter-cat {
@@ -226,7 +212,7 @@
       background: transparent;
       border: none;
       color: var(--text-secondary);
-      font-size: 18px;
+      font-size: 20px;
       cursor: pointer;
       padding: 4px;
     }
@@ -235,7 +221,6 @@
       color: var(--danger);
     }
 
-    /* Switch */
     .switch {
       position: relative;
       display: inline-block;
@@ -281,18 +266,12 @@
       background-color: var(--accent-text);
     }
 
-    /* Feed Cards */
     .feed-filters {
       display: flex;
       gap: 8px;
       overflow-x: auto;
       padding-bottom: 10px;
       margin-bottom: 10px;
-      scrollbar-width: none;
-    }
-
-    .feed-filters::-webkit-scrollbar {
-      display: none;
     }
 
     .feed-card {
@@ -340,20 +319,18 @@
       border-radius: var(--radius-pill);
     }
 
-    /* Settings */
     .settings-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
       padding: 16px;
-      margin-bottom: 14px;
     }
 
     .setting-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px 0;
+      padding: 12px 0;
       border-bottom: 1px solid var(--border);
     }
 
@@ -384,14 +361,12 @@
       padding: 6px 10px;
       font-size: 13px;
       font-weight: 600;
-      outline: none;
     }
 
-    /* Bottom Sheet Modal */
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(0, 0, 0, 0.65);
       display: none;
       align-items: flex-end;
       justify-content: center;
@@ -412,12 +387,6 @@
       border-top: 1px solid var(--border);
       max-height: 90vh;
       overflow-y: auto;
-      animation: slideUp 0.22s ease-out;
-    }
-
-    @keyframes slideUp {
-      from { transform: translateY(100%); }
-      to { transform: translateY(0); }
     }
 
     .sheet-handle {
@@ -444,7 +413,7 @@
       background: transparent;
       border: none;
       color: var(--text-secondary);
-      font-size: 22px;
+      font-size: 24px;
       cursor: pointer;
     }
 
@@ -458,14 +427,12 @@
       font-weight: 700;
       color: var(--text-secondary);
       text-transform: uppercase;
-      letter-spacing: 0.05em;
       margin-bottom: 8px;
     }
 
     .form-label span.opt {
       font-weight: 400;
       text-transform: none;
-      opacity: 0.75;
     }
 
     .text-input {
@@ -477,10 +444,6 @@
       color: var(--text);
       font-size: 15px;
       outline: none;
-    }
-
-    .text-input:focus {
-      border-color: var(--accent);
     }
 
     .chips-wrap {
@@ -499,7 +462,6 @@
       font-size: 13px;
       font-weight: 500;
       cursor: pointer;
-      transition: all 0.15s ease;
     }
 
     .chip.active {
@@ -528,7 +490,6 @@
       cursor: pointer;
     }
 
-    /* Sticky Footer */
     .footer-bar {
       position: fixed;
       bottom: 0;
@@ -564,27 +525,24 @@
     </div>
 
     <div class="tabs">
-      <button class="tab-btn active" data-tab="filters">Фильтры</button>
-      <button class="tab-btn" data-tab="feed">Лента</button>
-      <button class="tab-btn" data-tab="settings">Настройки</button>
+      <button type="button" class="tab-btn active" data-tab="filters">Фильтры</button>
+      <button type="button" class="tab-btn" data-tab="feed">Лента</button>
+      <button type="button" class="tab-btn" data-tab="settings">Настройки</button>
     </div>
 
-    <!-- Filters Tab -->
     <div class="section active" id="tab-filters">
       <div class="section-header">
         <span class="section-label">Мои фильтры</span>
-        <button class="add-btn" id="openModalBtn">+ Добавить</button>
+        <button type="button" class="add-btn" id="openModalBtn">+ Добавить</button>
       </div>
       <div id="filtersList"></div>
     </div>
 
-    <!-- Feed Tab -->
     <div class="section" id="tab-feed">
       <div class="feed-filters" id="feedFilterChips"></div>
       <div id="feedList"></div>
     </div>
 
-    <!-- Settings Tab -->
     <div class="section" id="tab-settings">
       <div class="settings-card">
         <div class="setting-row">
@@ -625,20 +583,18 @@
     </div>
   </div>
 
-  <!-- Sticky Save Button -->
   <div class="footer-bar">
     <div class="footer-inner">
-      <button class="primary-btn" id="syncBtn">Сохранить и отправить боту</button>
+      <button type="button" class="primary-btn" id="syncBtn">Сохранить и отправить боту</button>
     </div>
   </div>
 
-  <!-- Add Filter Modal -->
   <div class="modal-backdrop" id="filterModal">
     <div class="sheet">
       <div class="sheet-handle"></div>
       <div class="sheet-header">
         <div class="sheet-title">Новый фильтр</div>
-        <button class="close-btn" id="closeModalBtn">&times;</button>
+        <button type="button" class="close-btn" id="closeModalBtn">&times;</button>
       </div>
 
       <div class="form-group">
@@ -650,7 +606,7 @@
           <button type="button" class="chip" data-val="Adidas">Adidas</button>
           <button type="button" class="chip" data-val="Ralph Lauren">Ralph Lauren</button>
           <button type="button" class="chip" data-val="Stone Island">Stone Island</button>
-          <button type="button" class="chip" data-val="Stüssy">Stüssy</button>
+          <button type="button" class="chip" data-val="Stussy">Stussy</button>
         </div>
       </div>
 
@@ -699,342 +655,357 @@
   </div>
 
   <script>
-    const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
-    if (tg) {
-      tg.ready();
-      tg.expand();
-    }
+    (function () {
+      const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
+      if (tg) {
+        tg.ready();
+        tg.expand();
+      }
 
-    const STORAGE_KEY = "vinted_monitor_state_v2";
+      const STORAGE_KEY = "vinted_monitor_state_clean_v1";
 
-    const defaultState = {
-      filters: [
-        {
-          id: 1,
-          brand: "Nike",
-          category: "Кофта",
-          sizes: ["M", "L"],
-          max_price: 120,
-          condition: "Отличное",
-          active: true
-        },
-        {
-          id: 2,
-          brand: "Carhartt",
-          category: "",
-          sizes: [],
-          max_price: 180,
-          condition: "Любое",
-          active: true
+      const defaultState = {
+        filters: [
+          {
+            id: 1,
+            brand: "Nike",
+            category: "Кофта",
+            sizes: ["M", "L"],
+            max_price: 120,
+            condition: "Отличное",
+            active: true
+          },
+          {
+            id: 2,
+            brand: "Carhartt",
+            category: "",
+            sizes: [],
+            max_price: 180,
+            condition: "Любое",
+            active: true
+          }
+        ],
+        settings: {
+          interval: 60,
+          silent: false,
+          dark: true
         }
-      ],
-      settings: {
-        interval: 60,
-        silent: false,
-        dark: true
-      }
-    };
+      };
 
-    const mockFeed = [
-      { id: 101, brand: "Nike", title: "Nike Vintage Center Swoosh Hoodie", size: "L", price: 95, time: "2 мин назад", url: "https://www.vinted.pl" },
-      { id: 102, brand: "Carhartt", title: "Carhartt WIP Kickflip Backpack Black", size: "One Size", price: 140, time: "11 мин назад", url: "https://www.vinted.pl" },
-      { id: 103, brand: "Nike", title: "Nike Tech Fleece Zip Hoodie Grey", size: "M", price: 115, time: "24 мин назад", url: "https://www.vinted.pl" }
-    ];
+      const mockFeed = [
+        { id: 101, brand: "Nike", title: "Nike Vintage Center Swoosh Hoodie", size: "L", price: 95, time: "2 мин назад", url: "https://www.vinted.pl" },
+        { id: 102, brand: "Carhartt", title: "Carhartt WIP Kickflip Backpack Black", size: "One Size", price: 140, time: "11 мин назад", url: "https://www.vinted.pl" },
+        { id: 103, brand: "Nike", title: "Nike Tech Fleece Zip Hoodie Grey", size: "M", price: 115, time: "24 мин назад", url: "https://www.vinted.pl" }
+      ];
 
-    function loadState() {
-      try {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved) return JSON.parse(saved);
-      } catch (e) {}
-      return JSON.parse(JSON.stringify(defaultState));
-    }
-
-    let state = loadState();
-    let selectedFeedBrand = "ALL";
-
-    function saveState() {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-      } catch (e) {}
-    }
-
-    function applyTheme() {
-      document.documentElement.classList.toggle("dark", !!state.settings.dark);
-      document.getElementById("themeToggle").checked = !!state.settings.dark;
-    }
-
-    function updateStatusHeader() {
-      const activeCount = state.filters.filter(f => f.active).length;
-      const dot = document.getElementById("statusDot");
-      const text = document.getElementById("statusText");
-      if (activeCount > 0) {
-        dot.classList.remove("paused");
-        text.textContent = `Активно • ${activeCount}`;
-      } else {
-        dot.classList.add("paused");
-        text.textContent = "На паузе";
-      }
-    }
-
-    function renderFilters() {
-      const list = document.getElementById("filtersList");
-      updateStatusHeader();
-
-      if (!state.filters.length) {
-        list.innerHTML = `<div class="empty-state">Нет добавленных фильтров.<br>Нажмите «+ Добавить», чтобы начать мониторинг.</div>`;
-        return;
+      function loadState() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (parsed && Array.isArray(parsed.filters) && parsed.settings) {
+              return parsed;
+            }
+          }
+        } catch (e) {}
+        return JSON.parse(JSON.stringify(defaultState));
       }
 
-      list.innerHTML = state.filters.map(f => {
-        const catDisplay = f.category && f.category.trim() ? f.category.trim() : "Любая категория";
-        const sizeDisplay = f.sizes && f.sizes.length ? `Размер: ${f.sizes.join(", ")}` : "Любой размер";
-        return `
-          <div class="filter-card ${f.active ? "" : "inactive"}">
-            <div class="filter-top">
-              <div>
-                <div class="filter-brand">${escapeHtml(f.brand)}</div>
-                <div class="filter-cat">${escapeHtml(catDisplay)}</div>
-              </div>
-              <div class="filter-actions">
-                <label class="switch">
-                  <input type="checkbox" ${f.active ? "checked" : ""} onchange="toggleFilter(${f.id})">
-                  <span class="slider"></span>
-                </label>
-                <button class="delete-btn" onclick="deleteFilter(${f.id})" title="Удалить">&times;</button>
-              </div>
-            </div>
-            <div class="filter-meta">
-              <span class="meta-badge">до ${f.max_price} PLN</span>
-              <span class="meta-badge">${escapeHtml(sizeDisplay)}</span>
-              ${f.condition && f.condition !== "Любое" ? `<span class="meta-badge">${escapeHtml(f.condition)}</span>` : ""}
-            </div>
-          </div>
-        `;
-      }).join("");
-    }
+      let state = loadState();
+      let selectedFeedBrand = "ALL";
 
-    function renderFeed() {
-      const chipsContainer = document.getElementById("feedFilterChips");
-      const feedContainer = document.getElementById("feedList");
-      const brands = ["ALL", ...new Set(state.filters.map(f => f.brand))];
-
-      chipsContainer.innerHTML = brands.map(b => `
-        <button class="chip ${selectedFeedBrand === b ? "active" : ""}" onclick="setFeedBrand('${escapeHtml(b)}')">
-          ${b === "ALL" ? "Все" : escapeHtml(b)}
-        </button>
-      `).join("");
-
-      const filtered = selectedFeedBrand === "ALL"
-        ? mockFeed
-        : mockFeed.filter(item => item.brand.toLowerCase() === selectedFeedBrand.toLowerCase());
-
-      if (!filtered.length) {
-        feedContainer.innerHTML = `<div class="empty-state">Пока нет находок по выбранному фильтру.</div>`;
-        return;
+      function saveState() {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        } catch (e) {}
       }
 
-      feedContainer.innerHTML = filtered.map(item => `
-        <div class="feed-card">
-          <div>
-            <div class="feed-title">${escapeHtml(item.title)}</div>
-            <div class="feed-sub">${escapeHtml(item.brand)} • Размер ${escapeHtml(item.size)} • ${item.time}</div>
-          </div>
-          <div class="feed-right">
-            <div class="feed-price">${item.price} PLN</div>
-            <a href="${item.url}" target="_blank" class="link-btn">Vinted ↗</a>
-          </div>
-        </div>
-      `).join("");
-    }
+      function esc(str) {
+        return String(str || "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
 
-    window.setFeedBrand = function(brand) {
-      selectedFeedBrand = brand;
-      renderFeed();
-    };
+      function applyTheme() {
+        const isDark = !!state.settings.dark;
+        document.documentElement.classList.toggle("dark", isDark);
+        document.getElementById("themeToggle").checked = isDark;
+      }
 
-    window.toggleFilter = function(id) {
-      const target = state.filters.find(f => f.id === id);
-      if (target) {
-        target.active = !target.active;
+      function updateStatusHeader() {
+        const activeCount = state.filters.filter(f => f.active).length;
+        const dot = document.getElementById("statusDot");
+        const text = document.getElementById("statusText");
+        if (activeCount > 0) {
+          dot.classList.remove("paused");
+          text.textContent = "Активно • " + activeCount;
+        } else {
+          dot.classList.add("paused");
+          text.textContent = "На паузе";
+        }
+      }
+
+      function renderFilters() {
+        const list = document.getElementById("filtersList");
+        updateStatusHeader();
+
+        if (!state.filters.length) {
+          list.innerHTML = '<div class="empty-state">Нет добавленных фильтров.<br>Нажмите «+ Добавить», чтобы начать мониторинг.</div>';
+          return;
+        }
+
+        list.innerHTML = state.filters.map(f => {
+          const catText = f.category && f.category.trim() ? f.category.trim() : "Любая категория";
+          const sizeText = f.sizes && f.sizes.length ? "Размер: " + f.sizes.join(", ") : "Любой размер";
+          const condBadge = f.condition && f.condition !== "Любое"
+            ? '<span class="meta-badge">' + esc(f.condition) + "</span>"
+            : "";
+
+          return (
+            '<div class="filter-card ' + (f.active ? "" : "inactive") + '">' +
+              '<div class="filter-top">' +
+                '<div>' +
+                  '<div class="filter-brand">' + esc(f.brand) + "</div>" +
+                  '<div class="filter-cat">' + esc(catText) + "</div>" +
+                "</div>" +
+                '<div class="filter-actions">' +
+                  '<label class="switch">' +
+                    '<input type="checkbox" data-toggle-id="' + f.id + '" ' + (f.active ? "checked" : "") + ">" +
+                    '<span class="slider"></span>' +
+                  "</label>" +
+                  '<button type="button" class="delete-btn" data-del-id="' + f.id + '" title="Удалить">&times;</button>' +
+                "</div>" +
+              "</div>" +
+              '<div class="filter-meta">' +
+                '<span class="meta-badge">до ' + esc(f.max_price) + " PLN</span>" +
+                '<span class="meta-badge">' + esc(sizeText) + "</span>" +
+                condBadge +
+              "</div>" +
+            "</div>"
+          );
+        }).join("");
+
+        list.querySelectorAll("[data-toggle-id]").forEach(el => {
+          el.addEventListener("change", () => {
+            const id = Number(el.getAttribute("data-toggle-id"));
+            const item = state.filters.find(x => x.id === id);
+            if (item) {
+              item.active = el.checked;
+              saveState();
+              renderFilters();
+            }
+          });
+        });
+
+        list.querySelectorAll("[data-del-id]").forEach(el => {
+          el.addEventListener("click", () => {
+            const id = Number(el.getAttribute("data-del-id"));
+            state.filters = state.filters.filter(x => x.id !== id);
+            saveState();
+            renderFilters();
+            renderFeed();
+          });
+        });
+      }
+
+      function renderFeed() {
+        const chipsBox = document.getElementById("feedFilterChips");
+        const feedBox = document.getElementById("feedList");
+        const brands = ["ALL"].concat(Array.from(new Set(state.filters.map(f => f.brand))));
+
+        chipsBox.innerHTML = brands.map(b => {
+          const isAct = selectedFeedBrand === b;
+          const label = b === "ALL" ? "Все" : b;
+          return '<button type="button" class="chip ' + (isAct ? "active" : "") + '" data-feed-brand="' + esc(b) + '">' + esc(label) + "</button>";
+        }).join("");
+
+        chipsBox.querySelectorAll("[data-feed-brand]").forEach(btn => {
+          btn.addEventListener("click", () => {
+            selectedFeedBrand = btn.getAttribute("data-feed-brand");
+            renderFeed();
+          });
+        });
+
+        const items = selectedFeedBrand === "ALL"
+          ? mockFeed
+          : mockFeed.filter(x => x.brand.toLowerCase() === selectedFeedBrand.toLowerCase());
+
+        if (!items.length) {
+          feedBox.innerHTML = '<div class="empty-state">Пока нет находок по выбранному бренду.</div>';
+          return;
+        }
+
+        feedBox.innerHTML = items.map(item => (
+          '<div class="feed-card">' +
+            "<div>" +
+              '<div class="feed-title">' + esc(item.title) + "</div>" +
+              '<div class="feed-sub">' + esc(item.brand) + " • Размер " + esc(item.size) + " • " + esc(item.time) + "</div>" +
+            "</div>" +
+            '<div class="feed-right">' +
+              '<div class="feed-price">' + esc(item.price) + " PLN</div>" +
+              '<a href="' + esc(item.url) + '" target="_blank" rel="noopener noreferrer" class="link-btn">Vinted ↗</a>' +
+            "</div>" +
+          "</div>"
+        )).join("");
+      }
+
+      document.querySelectorAll(".tab-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const tabName = btn.getAttribute("data-tab");
+          document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+          document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+          btn.classList.add("active");
+          document.getElementById("tab-" + tabName).classList.add("active");
+        });
+      });
+
+      const modal = document.getElementById("filterModal");
+      const errorEl = document.getElementById("formError");
+
+      document.getElementById("openModalBtn").addEventListener("click", () => {
+        document.getElementById("brandInput").value = "";
+        document.getElementById("categoryInput").value = "";
+        document.getElementById("priceInput").value = "";
+        errorEl.style.display = "none";
+
+        document.querySelectorAll("#brandChips .chip, #categoryChips .chip").forEach(c => c.classList.remove("active"));
+        document.querySelectorAll("#sizeChips .chip").forEach(c => c.classList.toggle("active", c.getAttribute("data-size") === "ANY"));
+        document.querySelectorAll("#conditionChips .chip").forEach(c => c.classList.toggle("active", c.getAttribute("data-cond") === "Любое"));
+
+        modal.classList.add("open");
+      });
+
+      document.getElementById("closeModalBtn").addEventListener("click", () => {
+        modal.classList.remove("open");
+      });
+
+      modal.addEventListener("click", e => {
+        if (e.target === modal) modal.classList.remove("open");
+      });
+
+      document.querySelectorAll("#brandChips .chip").forEach(chip => {
+        chip.addEventListener("click", () => {
+          document.getElementById("brandInput").value = chip.getAttribute("data-val");
+          document.querySelectorAll("#brandChips .chip").forEach(c => c.classList.remove("active"));
+          chip.classList.add("active");
+        });
+      });
+
+      document.querySelectorAll("#categoryChips .chip").forEach(chip => {
+        chip.addEventListener("click", () => {
+          const input = document.getElementById("categoryInput");
+          if (chip.classList.contains("active")) {
+            chip.classList.remove("active");
+            input.value = "";
+          } else {
+            document.querySelectorAll("#categoryChips .chip").forEach(c => c.classList.remove("active"));
+            chip.classList.add("active");
+            input.value = chip.getAttribute("data-val");
+          }
+        });
+      });
+
+      document.querySelectorAll("#sizeChips .chip").forEach(chip => {
+        chip.addEventListener("click", () => {
+          const size = chip.getAttribute("data-size");
+          const anyChip = document.querySelector('#sizeChips .chip[data-size="ANY"]');
+          if (size === "ANY") {
+            document.querySelectorAll("#sizeChips .chip").forEach(c => c.classList.remove("active"));
+            anyChip.classList.add("active");
+          } else {
+            anyChip.classList.remove("active");
+            chip.classList.toggle("active");
+            const hasAny = document.querySelectorAll("#sizeChips .chip.active").length > 0;
+            if (!hasAny) anyChip.classList.add("active");
+          }
+        });
+      });
+
+      document.querySelectorAll("#conditionChips .chip").forEach(chip => {
+        chip.addEventListener("click", () => {
+          document.querySelectorAll("#conditionChips .chip").forEach(c => c.classList.remove("active"));
+          chip.classList.add("active");
+        });
+      });
+
+      document.getElementById("createFilterBtn").addEventListener("click", () => {
+        const brand = document.getElementById("brandInput").value.trim();
+        const category = document.getElementById("categoryInput").value.trim();
+        const maxPrice = Number(document.getElementById("priceInput").value);
+
+        if (!brand) {
+          errorEl.textContent = "Укажите бренд или поисковый запрос.";
+          errorEl.style.display = "block";
+          return;
+        }
+
+        if (!maxPrice || maxPrice <= 0) {
+          errorEl.textContent = "Укажите максимальную цену в PLN.";
+          errorEl.style.display = "block";
+          return;
+        }
+
+        const sizes = Array.from(document.querySelectorAll("#sizeChips .chip.active"))
+          .map(c => c.getAttribute("data-size"))
+          .filter(s => s && s !== "ANY");
+
+        const activeCondEl = document.querySelector("#conditionChips .chip.active");
+        const condition = activeCondEl ? activeCondEl.getAttribute("data-cond") : "Любое";
+
+        state.filters.unshift({
+          id: Date.now(),
+          brand: brand,
+          category: category,
+          sizes: sizes,
+          max_price: maxPrice,
+          condition: condition,
+          active: true
+        });
+
         saveState();
         renderFilters();
-      }
-    };
-
-    window.deleteFilter = function(id) {
-      state.filters = state.filters.filter(f => f.id !== id);
-      saveState();
-      renderFilters();
-      renderFeed();
-    };
-
-    function escapeHtml(str) {
-      return String(str).replace(/[&<>"']/g, m => ({
-        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
-      }[m]));
-    }
-
-    // Tabs switching
-    document.querySelectorAll(".tab-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
-        document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
-        btn.classList.add("active");
-        document.getElementById(`tab-${btn.dataset.tab}`).classList.add("active");
+        renderFeed();
+        modal.classList.remove("open");
       });
-    });
 
-    // Modal handling
-    const modal = document.getElementById("filterModal");
-    const errorEl = document.getElementById("formError");
+      document.getElementById("intervalSelect").value = String(state.settings.interval || 60);
+      document.getElementById("silentToggle").checked = !!state.settings.silent;
 
-    document.getElementById("openModalBtn").addEventListener("click", () => {
-      document.getElementById("brandInput").value = "";
-      document.getElementById("categoryInput").value = "";
-      document.getElementById("priceInput").value = "";
-      errorEl.style.display = "none";
-
-      document.querySelectorAll("#brandChips .chip, #categoryChips .chip").forEach(c => c.classList.remove("active"));
-      document.querySelectorAll("#sizeChips .chip").forEach(c => c.classList.toggle("active", c.dataset.size === "ANY"));
-      document.querySelectorAll("#conditionChips .chip").forEach(c => c.classList.toggle("active", c.dataset.cond === "Любое"));
-
-      modal.classList.add("open");
-    });
-
-    document.getElementById("closeModalBtn").addEventListener("click", () => modal.classList.remove("open"));
-    modal.addEventListener("click", e => {
-      if (e.target === modal) modal.classList.remove("open");
-    });
-
-    // Quick brand chips
-    document.querySelectorAll("#brandChips .chip").forEach(chip => {
-      chip.addEventListener("click", () => {
-        document.getElementById("brandInput").value = chip.dataset.val;
-        document.querySelectorAll("#brandChips .chip").forEach(c => c.classList.remove("active"));
-        chip.classList.add("active");
+      document.getElementById("intervalSelect").addEventListener("change", e => {
+        state.settings.interval = Number(e.target.value);
+        saveState();
       });
-    });
 
-    // Quick category chips (toggleable so user can unselect!)
-    document.querySelectorAll("#categoryChips .chip").forEach(chip => {
-      chip.addEventListener("click", () => {
-        const input = document.getElementById("categoryInput");
-        if (chip.classList.contains("active")) {
-          chip.classList.remove("active");
-          input.value = "";
+      document.getElementById("silentToggle").addEventListener("change", e => {
+        state.settings.silent = e.target.checked;
+        saveState();
+      });
+
+      document.getElementById("themeToggle").addEventListener("change", e => {
+        state.settings.dark = e.target.checked;
+        applyTheme();
+        saveState();
+      });
+
+      document.getElementById("syncBtn").addEventListener("click", () => {
+        const payload = JSON.stringify({
+          filters: state.filters,
+          settings: state.settings
+        });
+
+        if (tg && typeof tg.sendData === "function") {
+          tg.sendData(payload);
         } else {
-          document.querySelectorAll("#categoryChips .chip").forEach(c => c.classList.remove("active"));
-          chip.classList.add("active");
-          input.value = chip.dataset.val;
+          window.prompt("JSON готов к отправке боту (скопируйте):", payload);
         }
       });
-    });
 
-    // Multi-select size chips
-    document.querySelectorAll("#sizeChips .chip").forEach(chip => {
-      chip.addEventListener("click", () => {
-        const size = chip.dataset.size;
-        const anyChip = document.querySelector('#sizeChips .chip[data-size="ANY"]');
-        if (size === "ANY") {
-          document.querySelectorAll("#sizeChips .chip").forEach(c => c.classList.remove("active"));
-          anyChip.classList.add("active");
-        } else {
-          anyChip.classList.remove("active");
-          chip.classList.toggle("active");
-          const anySelected = document.querySelectorAll("#sizeChips .chip.active").length > 0;
-          if (!anySelected) anyChip.classList.add("active");
-        }
-      });
-    });
-
-    // Condition chips
-    document.querySelectorAll("#conditionChips .chip").forEach(chip => {
-      chip.addEventListener("click", () => {
-        document.querySelectorAll("#conditionChips .chip").forEach(c => c.classList.remove("active"));
-        chip.classList.add("active");
-      });
-    });
-
-    // Create filter (Category is completely OPTIONAL)
-    document.getElementById("createFilterBtn").addEventListener("click", () => {
-      const brand = document.getElementById("brandInput").value.trim();
-      const category = document.getElementById("categoryInput").value.trim(); // optional!
-      const priceVal = parseFloat(document.getElementById("priceInput").value);
-
-      if (!brand) {
-        errorEl.textContent = "Укажите бренд или поисковый запрос.";
-        errorEl.style.display = "block";
-        return;
-      }
-
-      if (!priceVal || priceVal <= 0) {
-        errorEl.textContent = "Укажите максимальную цену в PLN.";
-        errorEl.style.display = "block";
-        return;
-      }
-
-      const activeSizes = Array.from(document.querySelectorAll("#sizeChips .chip.active"))
-        .map(c => c.dataset.size)
-        .filter(s => s !== "ANY");
-
-      const activeCond = document.querySelector("#conditionChips .chip.active")?.dataset.cond || "Любое";
-
-      state.filters.unshift({
-        id: Date.now(),
-        brand,
-        category, // can be ""
-        sizes: activeSizes,
-        max_price: priceVal,
-        condition: activeCond,
-        active: true
-      });
-
-      saveState();
-      renderFilters();
-      renderFeed();
-      modal.classList.remove("open");
-    });
-
-    // Settings listeners
-    document.getElementById("intervalSelect").value = String(state.settings.interval || 60);
-    document.getElementById("silentToggle").checked = !!state.settings.silent;
-
-    document.getElementById("intervalSelect").addEventListener("change", e => {
-      state.settings.interval = parseInt(e.target.value, 10);
-      saveState();
-    });
-
-    document.getElementById("silentToggle").addEventListener("change", e => {
-      state.settings.silent = e.target.checked;
-      saveState();
-    });
-
-    document.getElementById("themeToggle").addEventListener("change", e => {
-      state.settings.dark = e.target.checked;
       applyTheme();
-      saveState();
-    });
-
-    // Send data to Telegram bot
-    document.getElementById("syncBtn").addEventListener("click", () => {
-      const payload = {
-        filters: state.filters,
-        settings: state.settings
-      };
-      const jsonStr = JSON.stringify(payload);
-
-      if (tg && tg.sendData) {
-        tg.sendData(jsonStr);
-      } else {
-        alert("Данные готовы к отправке боту:
-
-" + jsonStr);
-      }
-    });
-
-    applyTheme();
-    renderFilters();
-    renderFeed();
+      renderFilters();
+      renderFeed();
+    })();
   </script>
 </body>
 </html>
