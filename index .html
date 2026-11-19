@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="ru" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Vinted Monitor</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    :root {
+      --bg: #f5f5f7;
+      --surface: #ffffff;
+      --surface-elevated: #f0f0f2;
+      --text: #111111;
+      --text-secondary: #6e6e73;
+      --border: #e5e5ea;
+      --accent: #111111;
+      --accent-text: #ffffff;
+      --chip-bg: #f2f2f7;
+      --chip-active-bg: #111111;
+      --chip-active-text: #ffffff;
+      --danger: #ff3b30;
+      --success: #34c759;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --radius-pill: 999px;
+      --shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+    }
+
+    html.dark {
+      --bg: #0d0d0d;
+      --surface: #171717;
+      --surface-elevated: #222222;
+      --text: #f5f5f7;
+      --text-secondary: #8e8e93;
+      --border: #262626;
+      --accent: #ffffff;
+      --accent-text: #0d0d0d;
+      --chip-bg: #222222;
+      --chip-active-bg: #ffffff;
+      --chip-active-text: #0d0d0d;
+      --danger: #ff453a;
+      --success: #30d158;
+      --shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", Roboto, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.4;
+      padding-bottom: 92px;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .container {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .header-title {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 6px 12px;
+      border-radius: var(--radius-pill);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background-color: var(--success);
+      box-shadow: 0 0 8px var(--success);
+    }
+
+    .status-dot.paused {
+      background-color: var(--text-secondary);
+      box-shadow: none;
+    }
+
+    /* Tabs */
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 4px;
+      margin-bottom: 20px;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 4px;
+      border-radius: 9px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn.active {
+      background: var(--accent);
+      color: var(--accent-text);
+    }
+
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    /* Filter Cards */
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .section-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .add-btn {
+      background: var(--accent);
+      color: var(--accent-text);
+      border: none;
+      border-radius: var(--radius-pill);
+      padding: 7px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .filter-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow);
+      transition: opacity 0.2s ease;
+    }
+
+    .filter-card.inactive {
+      opacity: 0.55;
+    }
+
+    .filter-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+
+    .filter-brand {
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .filter-cat {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    .filter-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .meta-badge {
+      background: var(--surface-elevated);
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+    }
+
+    .filter-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .delete-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 18px;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .delete-btn:hover {
+      color: var(--danger);
+    }
+
+    /* Switch */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 26px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background-color: var(--surface-elevated);
+      border: 1px solid var(--border);
+      transition: 0.2s;
+      border-radius: 34px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 2px;
+      bottom: 2px;
+      background-color: var(--text-secondary);
+      transition: 0.2s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(18px);
+      background-color: var(--accent-text);
+    }
+
+    /* Feed Cards */
+    .feed-filters {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+      scrollbar-width: none;
+    }
+
+    .feed-filters::-webkit-scrollbar {
+      display: none;
+    }
+
+    .feed-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 14px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .feed-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .feed-sub {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .feed-right {
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .feed-price {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .link-btn {
+      display: inline-block;
+      text-decoration: none;
+      background: var(--surface-elevated);
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: var(--radius-pill);
+    }
+
+    /* Settings */
+    .settings-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+
+    .setting-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .setting-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .setting-row:first-child {
+      padding-top: 0;
+    }
+
+    .setting-title {
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .setting-desc {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    select.minimal-select {
+      background: var(--surface-elevated);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 6px 10px;
+      font-size: 13px;
+      font-weight: 600;
+      outline: none;
+    }
+
+    /* Bottom Sheet Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      z-index: 100;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .sheet {
+      background: var(--surface);
+      width: 100%;
+      max-width: 480px;
+      border-top-left-radius: 24px;
+      border-top-right-radius: 24px;
+      padding: 14px 18px 28px;
+      border-top: 1px solid var(--border);
+      max-height: 90vh;
+      overflow-y: auto;
+      animation: slideUp 0.22s ease-out;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    .sheet-handle {
+      width: 36px;
+      height: 4px;
+      background: var(--border);
+      border-radius: 99px;
+      margin: 0 auto 14px;
+    }
+
+    .sheet-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .sheet-title {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .close-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+
+    .form-label span.opt {
+      font-weight: 400;
+      text-transform: none;
+      opacity: 0.75;
+    }
+
+    .text-input {
+      width: 100%;
+      background: var(--surface-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      color: var(--text);
+      font-size: 15px;
+      outline: none;
+    }
+
+    .text-input:focus {
+      border-color: var(--accent);
+    }
+
+    .chips-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .chip {
+      background: var(--chip-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-pill);
+      padding: 7px 14px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .chip.active {
+      background: var(--chip-active-bg);
+      color: var(--chip-active-text);
+      border-color: var(--chip-active-bg);
+      font-weight: 600;
+    }
+
+    .error-msg {
+      color: var(--danger);
+      font-size: 13px;
+      margin-bottom: 12px;
+      display: none;
+    }
+
+    .primary-btn {
+      width: 100%;
+      background: var(--accent);
+      color: var(--accent-text);
+      border: none;
+      border-radius: var(--radius-md);
+      padding: 14px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* Sticky Footer */
+    .footer-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      padding: 12px 16px;
+      z-index: 50;
+    }
+
+    .footer-inner {
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 36px 16px;
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="header-title">Vinted Monitor</div>
+      <div class="status-pill">
+        <span class="status-dot" id="statusDot"></span>
+        <span id="statusText">Активно • 2</span>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="filters">Фильтры</button>
+      <button class="tab-btn" data-tab="feed">Лента</button>
+      <button class="tab-btn" data-tab="settings">Настройки</button>
+    </div>
+
+    <!-- Filters Tab -->
+    <div class="section active" id="tab-filters">
+      <div class="section-header">
+        <span class="section-label">Мои фильтры</span>
+        <button class="add-btn" id="openModalBtn">+ Добавить</button>
+      </div>
+      <div id="filtersList"></div>
+    </div>
+
+    <!-- Feed Tab -->
+    <div class="section" id="tab-feed">
+      <div class="feed-filters" id="feedFilterChips"></div>
+      <div id="feedList"></div>
+    </div>
+
+    <!-- Settings Tab -->
+    <div class="section" id="tab-settings">
+      <div class="settings-card">
+        <div class="setting-row">
+          <div>
+            <div class="setting-title">Интервал проверки</div>
+            <div class="setting-desc">Как часто бот сканирует Vinted.pl</div>
+          </div>
+          <select class="minimal-select" id="intervalSelect">
+            <option value="30">30 сек</option>
+            <option value="60" selected>1 мин</option>
+            <option value="180">3 мин</option>
+            <option value="300">5 мин</option>
+          </select>
+        </div>
+
+        <div class="setting-row">
+          <div>
+            <div class="setting-title">Беззвучные уведомления</div>
+            <div class="setting-desc">Отправлять находки без звука</div>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="silentToggle" />
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="setting-row">
+          <div>
+            <div class="setting-title">Тёмная тема</div>
+            <div class="setting-desc">Минималистичный ночной режим</div>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="themeToggle" checked />
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sticky Save Button -->
+  <div class="footer-bar">
+    <div class="footer-inner">
+      <button class="primary-btn" id="syncBtn">Сохранить и отправить боту</button>
+    </div>
+  </div>
+
+  <!-- Add Filter Modal -->
+  <div class="modal-backdrop" id="filterModal">
+    <div class="sheet">
+      <div class="sheet-handle"></div>
+      <div class="sheet-header">
+        <div class="sheet-title">Новый фильтр</div>
+        <button class="close-btn" id="closeModalBtn">&times;</button>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Бренд / запрос</label>
+        <input type="text" class="text-input" id="brandInput" placeholder="Например: Nike или Rolling Stones" />
+        <div class="chips-wrap" id="brandChips">
+          <button type="button" class="chip" data-val="Nike">Nike</button>
+          <button type="button" class="chip" data-val="Carhartt">Carhartt</button>
+          <button type="button" class="chip" data-val="Adidas">Adidas</button>
+          <button type="button" class="chip" data-val="Ralph Lauren">Ralph Lauren</button>
+          <button type="button" class="chip" data-val="Stone Island">Stone Island</button>
+          <button type="button" class="chip" data-val="Stüssy">Stüssy</button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Категория <span class="opt">(необязательно)</span></label>
+        <input type="text" class="text-input" id="categoryInput" placeholder="Любая категория (или введите: Кофта)" />
+        <div class="chips-wrap" id="categoryChips">
+          <button type="button" class="chip" data-val="Кофта">Кофта</button>
+          <button type="button" class="chip" data-val="Куртка">Куртка</button>
+          <button type="button" class="chip" data-val="Сумка">Сумка</button>
+          <button type="button" class="chip" data-val="Кроссовки">Кроссовки</button>
+          <button type="button" class="chip" data-val="Джинсы">Джинсы</button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Размер</label>
+        <div class="chips-wrap" id="sizeChips" style="margin-top: 0;">
+          <button type="button" class="chip" data-size="XS">XS</button>
+          <button type="button" class="chip" data-size="S">S</button>
+          <button type="button" class="chip" data-size="M">M</button>
+          <button type="button" class="chip" data-size="L">L</button>
+          <button type="button" class="chip" data-size="XL">XL</button>
+          <button type="button" class="chip active" data-size="ANY">Любой</button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Максимальная цена (PLN)</label>
+        <input type="number" class="text-input" id="priceInput" placeholder="Например: 150" min="1" />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Состояние</label>
+        <div class="chips-wrap" id="conditionChips" style="margin-top: 0;">
+          <button type="button" class="chip active" data-cond="Любое">Любое</button>
+          <button type="button" class="chip" data-cond="Новое">Новое</button>
+          <button type="button" class="chip" data-cond="Отличное">Отличное</button>
+          <button type="button" class="chip" data-cond="Хорошее">Хорошее</button>
+        </div>
+      </div>
+
+      <div class="error-msg" id="formError"></div>
+      <button type="button" class="primary-btn" id="createFilterBtn">Создать фильтр</button>
+    </div>
+  </div>
+
+  <script>
+    const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
+    if (tg) {
+      tg.ready();
+      tg.expand();
+    }
+
+    const STORAGE_KEY = "vinted_monitor_state_v2";
+
+    const defaultState = {
+      filters: [
+        {
+          id: 1,
+          brand: "Nike",
+          category: "Кофта",
+          sizes: ["M", "L"],
+          max_price: 120,
+          condition: "Отличное",
+          active: true
+        },
+        {
+          id: 2,
+          brand: "Carhartt",
+          category: "",
+          sizes: [],
+          max_price: 180,
+          condition: "Любое",
+          active: true
+        }
+      ],
+      settings: {
+        interval: 60,
+        silent: false,
+        dark: true
+      }
+    };
+
+    const mockFeed = [
+      { id: 101, brand: "Nike", title: "Nike Vintage Center Swoosh Hoodie", size: "L", price: 95, time: "2 мин назад", url: "https://www.vinted.pl" },
+      { id: 102, brand: "Carhartt", title: "Carhartt WIP Kickflip Backpack Black", size: "One Size", price: 140, time: "11 мин назад", url: "https://www.vinted.pl" },
+      { id: 103, brand: "Nike", title: "Nike Tech Fleece Zip Hoodie Grey", size: "M", price: 115, time: "24 мин назад", url: "https://www.vinted.pl" }
+    ];
+
+    function loadState() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) return JSON.parse(saved);
+      } catch (e) {}
+      return JSON.parse(JSON.stringify(defaultState));
+    }
+
+    let state = loadState();
+    let selectedFeedBrand = "ALL";
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch (e) {}
+    }
+
+    function applyTheme() {
+      document.documentElement.classList.toggle("dark", !!state.settings.dark);
+      document.getElementById("themeToggle").checked = !!state.settings.dark;
+    }
+
+    function updateStatusHeader() {
+      const activeCount = state.filters.filter(f => f.active).length;
+      const dot = document.getElementById("statusDot");
+      const text = document.getElementById("statusText");
+      if (activeCount > 0) {
+        dot.classList.remove("paused");
+        text.textContent = `Активно • ${activeCount}`;
+      } else {
+        dot.classList.add("paused");
+        text.textContent = "На паузе";
+      }
+    }
+
+    function renderFilters() {
+      const list = document.getElementById("filtersList");
+      updateStatusHeader();
+
+      if (!state.filters.length) {
+        list.innerHTML = `<div class="empty-state">Нет добавленных фильтров.<br>Нажмите «+ Добавить», чтобы начать мониторинг.</div>`;
+        return;
+      }
+
+      list.innerHTML = state.filters.map(f => {
+        const catDisplay = f.category && f.category.trim() ? f.category.trim() : "Любая категория";
+        const sizeDisplay = f.sizes && f.sizes.length ? `Размер: ${f.sizes.join(", ")}` : "Любой размер";
+        return `
+          <div class="filter-card ${f.active ? "" : "inactive"}">
+            <div class="filter-top">
+              <div>
+                <div class="filter-brand">${escapeHtml(f.brand)}</div>
+                <div class="filter-cat">${escapeHtml(catDisplay)}</div>
+              </div>
+              <div class="filter-actions">
+                <label class="switch">
+                  <input type="checkbox" ${f.active ? "checked" : ""} onchange="toggleFilter(${f.id})">
+                  <span class="slider"></span>
+                </label>
+                <button class="delete-btn" onclick="deleteFilter(${f.id})" title="Удалить">&times;</button>
+              </div>
+            </div>
+            <div class="filter-meta">
+              <span class="meta-badge">до ${f.max_price} PLN</span>
+              <span class="meta-badge">${escapeHtml(sizeDisplay)}</span>
+              ${f.condition && f.condition !== "Любое" ? `<span class="meta-badge">${escapeHtml(f.condition)}</span>` : ""}
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderFeed() {
+      const chipsContainer = document.getElementById("feedFilterChips");
+      const feedContainer = document.getElementById("feedList");
+      const brands = ["ALL", ...new Set(state.filters.map(f => f.brand))];
+
+      chipsContainer.innerHTML = brands.map(b => `
+        <button class="chip ${selectedFeedBrand === b ? "active" : ""}" onclick="setFeedBrand('${escapeHtml(b)}')">
+          ${b === "ALL" ? "Все" : escapeHtml(b)}
+        </button>
+      `).join("");
+
+      const filtered = selectedFeedBrand === "ALL"
+        ? mockFeed
+        : mockFeed.filter(item => item.brand.toLowerCase() === selectedFeedBrand.toLowerCase());
+
+      if (!filtered.length) {
+        feedContainer.innerHTML = `<div class="empty-state">Пока нет находок по выбранному фильтру.</div>`;
+        return;
+      }
+
+      feedContainer.innerHTML = filtered.map(item => `
+        <div class="feed-card">
+          <div>
+            <div class="feed-title">${escapeHtml(item.title)}</div>
+            <div class="feed-sub">${escapeHtml(item.brand)} • Размер ${escapeHtml(item.size)} • ${item.time}</div>
+          </div>
+          <div class="feed-right">
+            <div class="feed-price">${item.price} PLN</div>
+            <a href="${item.url}" target="_blank" class="link-btn">Vinted ↗</a>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    window.setFeedBrand = function(brand) {
+      selectedFeedBrand = brand;
+      renderFeed();
+    };
+
+    window.toggleFilter = function(id) {
+      const target = state.filters.find(f => f.id === id);
+      if (target) {
+        target.active = !target.active;
+        saveState();
+        renderFilters();
+      }
+    };
+
+    window.deleteFilter = function(id) {
+      state.filters = state.filters.filter(f => f.id !== id);
+      saveState();
+      renderFilters();
+      renderFeed();
+    };
+
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, m => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
+      }[m]));
+    }
+
+    // Tabs switching
+    document.querySelectorAll(".tab-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+        document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById(`tab-${btn.dataset.tab}`).classList.add("active");
+      });
+    });
+
+    // Modal handling
+    const modal = document.getElementById("filterModal");
+    const errorEl = document.getElementById("formError");
+
+    document.getElementById("openModalBtn").addEventListener("click", () => {
+      document.getElementById("brandInput").value = "";
+      document.getElementById("categoryInput").value = "";
+      document.getElementById("priceInput").value = "";
+      errorEl.style.display = "none";
+
+      document.querySelectorAll("#brandChips .chip, #categoryChips .chip").forEach(c => c.classList.remove("active"));
+      document.querySelectorAll("#sizeChips .chip").forEach(c => c.classList.toggle("active", c.dataset.size === "ANY"));
+      document.querySelectorAll("#conditionChips .chip").forEach(c => c.classList.toggle("active", c.dataset.cond === "Любое"));
+
+      modal.classList.add("open");
+    });
+
+    document.getElementById("closeModalBtn").addEventListener("click", () => modal.classList.remove("open"));
+    modal.addEventListener("click", e => {
+      if (e.target === modal) modal.classList.remove("open");
+    });
+
+    // Quick brand chips
+    document.querySelectorAll("#brandChips .chip").forEach(chip => {
+      chip.addEventListener("click", () => {
+        document.getElementById("brandInput").value = chip.dataset.val;
+        document.querySelectorAll("#brandChips .chip").forEach(c => c.classList.remove("active"));
+        chip.classList.add("active");
+      });
+    });
+
+    // Quick category chips (toggleable so user can unselect!)
+    document.querySelectorAll("#categoryChips .chip").forEach(chip => {
+      chip.addEventListener("click", () => {
+        const input = document.getElementById("categoryInput");
+        if (chip.classList.contains("active")) {
+          chip.classList.remove("active");
+          input.value = "";
+        } else {
+          document.querySelectorAll("#categoryChips .chip").forEach(c => c.classList.remove("active"));
+          chip.classList.add("active");
+          input.value = chip.dataset.val;
+        }
+      });
+    });
+
+    // Multi-select size chips
+    document.querySelectorAll("#sizeChips .chip").forEach(chip => {
+      chip.addEventListener("click", () => {
+        const size = chip.dataset.size;
+        const anyChip = document.querySelector('#sizeChips .chip[data-size="ANY"]');
+        if (size === "ANY") {
+          document.querySelectorAll("#sizeChips .chip").forEach(c => c.classList.remove("active"));
+          anyChip.classList.add("active");
+        } else {
+          anyChip.classList.remove("active");
+          chip.classList.toggle("active");
+          const anySelected = document.querySelectorAll("#sizeChips .chip.active").length > 0;
+          if (!anySelected) anyChip.classList.add("active");
+        }
+      });
+    });
+
+    // Condition chips
+    document.querySelectorAll("#conditionChips .chip").forEach(chip => {
+      chip.addEventListener("click", () => {
+        document.querySelectorAll("#conditionChips .chip").forEach(c => c.classList.remove("active"));
+        chip.classList.add("active");
+      });
+    });
+
+    // Create filter (Category is completely OPTIONAL)
+    document.getElementById("createFilterBtn").addEventListener("click", () => {
+      const brand = document.getElementById("brandInput").value.trim();
+      const category = document.getElementById("categoryInput").value.trim(); // optional!
+      const priceVal = parseFloat(document.getElementById("priceInput").value);
+
+      if (!brand) {
+        errorEl.textContent = "Укажите бренд или поисковый запрос.";
+        errorEl.style.display = "block";
+        return;
+      }
+
+      if (!priceVal || priceVal <= 0) {
+        errorEl.textContent = "Укажите максимальную цену в PLN.";
+        errorEl.style.display = "block";
+        return;
+      }
+
+      const activeSizes = Array.from(document.querySelectorAll("#sizeChips .chip.active"))
+        .map(c => c.dataset.size)
+        .filter(s => s !== "ANY");
+
+      const activeCond = document.querySelector("#conditionChips .chip.active")?.dataset.cond || "Любое";
+
+      state.filters.unshift({
+        id: Date.now(),
+        brand,
+        category, // can be ""
+        sizes: activeSizes,
+        max_price: priceVal,
+        condition: activeCond,
+        active: true
+      });
+
+      saveState();
+      renderFilters();
+      renderFeed();
+      modal.classList.remove("open");
+    });
+
+    // Settings listeners
+    document.getElementById("intervalSelect").value = String(state.settings.interval || 60);
+    document.getElementById("silentToggle").checked = !!state.settings.silent;
+
+    document.getElementById("intervalSelect").addEventListener("change", e => {
+      state.settings.interval = parseInt(e.target.value, 10);
+      saveState();
+    });
+
+    document.getElementById("silentToggle").addEventListener("change", e => {
+      state.settings.silent = e.target.checked;
+      saveState();
+    });
+
+    document.getElementById("themeToggle").addEventListener("change", e => {
+      state.settings.dark = e.target.checked;
+      applyTheme();
+      saveState();
+    });
+
+    // Send data to Telegram bot
+    document.getElementById("syncBtn").addEventListener("click", () => {
+      const payload = {
+        filters: state.filters,
+        settings: state.settings
+      };
+      const jsonStr = JSON.stringify(payload);
+
+      if (tg && tg.sendData) {
+        tg.sendData(jsonStr);
+      } else {
+        alert("Данные готовы к отправке боту:
+
+" + jsonStr);
+      }
+    });
+
+    applyTheme();
+    renderFilters();
+    renderFeed();
+  </script>
+</body>
+</html>
