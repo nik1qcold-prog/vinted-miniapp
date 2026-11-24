@@ -559,21 +559,21 @@
       <div class="header-title">Vinted Monitor</div>
       <div class="status-pill">
         <span class="status-dot" id="statusDot"></span>
-        <span id="statusText">РђРєС‚РёРІРЅРѕ вЂў 2</span>
+        <span id="statusText">Активно • 2</span>
       </div>
     </div>
 
     <div class="tabs">
-      <button class="tab-btn active" data-tab="filters">Р¤РёР»СЊС‚СЂС‹</button>
-      <button class="tab-btn" data-tab="feed">Р›РµРЅС‚Р°</button>
-      <button class="tab-btn" data-tab="settings">РќР°СЃС‚СЂРѕР№РєРё</button>
+      <button class="tab-btn active" data-tab="filters">Фильтры</button>
+      <button class="tab-btn" data-tab="feed">Лента</button>
+      <button class="tab-btn" data-tab="settings">Настройки</button>
     </div>
 
     <!-- Filters Tab -->
     <div class="section active" id="tab-filters">
       <div class="section-header">
-        <span class="section-label">РњРѕРё С„РёР»СЊС‚СЂС‹</span>
-        <button class="add-btn" id="openModalBtn">+ Р”РѕР±Р°РІРёС‚СЊ</button>
+        <span class="section-label">Мои фильтры</span>
+        <button class="add-btn" id="openModalBtn">+ Добавить</button>
       </div>
       <div id="filtersList"></div>
     </div>
@@ -589,21 +589,21 @@
       <div class="settings-card">
         <div class="setting-row">
           <div>
-            <div class="setting-title">РРЅС‚РµСЂРІР°Р» РїСЂРѕРІРµСЂРєРё</div>
-            <div class="setting-desc">РљР°Рє С‡Р°СЃС‚Рѕ Р±РѕС‚ СЃРєР°РЅРёСЂСѓРµС‚ Vinted.pl</div>
+            <div class="setting-title">Интервал проверки</div>
+            <div class="setting-desc">Как часто бот сканирует Vinted.pl</div>
           </div>
           <select class="minimal-select" id="intervalSelect">
-            <option value="30">30 СЃРµРє</option>
-            <option value="60" selected>1 РјРёРЅ</option>
-            <option value="180">3 РјРёРЅ</option>
-            <option value="300">5 РјРёРЅ</option>
+            <option value="30">30 сек</option>
+            <option value="60" selected>1 мин</option>
+            <option value="180">3 мин</option>
+            <option value="300">5 мин</option>
           </select>
         </div>
 
         <div class="setting-row">
           <div>
-            <div class="setting-title">Р‘РµР·Р·РІСѓС‡РЅС‹Рµ СѓРІРµРґРѕРјР»РµРЅРёСЏ</div>
-            <div class="setting-desc">РћС‚РїСЂР°РІР»СЏС‚СЊ РЅР°С…РѕРґРєРё Р±РµР· Р·РІСѓРєР°</div>
+            <div class="setting-title">Беззвучные уведомления</div>
+            <div class="setting-desc">Отправлять находки без звука</div>
           </div>
           <label class="switch">
             <input type="checkbox" id="silentToggle" />
@@ -613,8 +613,8 @@
 
         <div class="setting-row">
           <div>
-            <div class="setting-title">РўС‘РјРЅР°СЏ С‚РµРјР°</div>
-            <div class="setting-desc">РњРёРЅРёРјР°Р»РёСЃС‚РёС‡РЅС‹Р№ РЅРѕС‡РЅРѕР№ СЂРµР¶РёРј</div>
+            <div class="setting-title">Тёмная тема</div>
+            <div class="setting-desc">Минималистичный ночной режим</div>
           </div>
           <label class="switch">
             <input type="checkbox" id="themeToggle" checked />
@@ -628,7 +628,7 @@
   <!-- Sticky Save Button -->
   <div class="footer-bar">
     <div class="footer-inner">
-      <button class="primary-btn" id="syncBtn">РЎРѕС…СЂР°РЅРёС‚СЊ Рё РѕС‚РїСЂР°РІРёС‚СЊ Р±РѕС‚Сѓ</button>
+      <button class="primary-btn" id="syncBtn">Сохранить и отправить боту</button>
     </div>
   </div>
 
@@ -637,61 +637,61 @@
     <div class="sheet">
       <div class="sheet-handle"></div>
       <div class="sheet-header">
-        <div class="sheet-title">РќРѕРІС‹Р№ С„РёР»СЊС‚СЂ</div>
+        <div class="sheet-title">Новый фильтр</div>
         <button class="close-btn" id="closeModalBtn">&times;</button>
       </div>
 
       <div class="form-group">
-        <label class="form-label">Р‘СЂРµРЅРґ / Р·Р°РїСЂРѕСЃ</label>
-        <input type="text" class="text-input" id="brandInput" placeholder="РќР°РїСЂРёРјРµСЂ: Nike РёР»Рё Rolling Stones" />
+        <label class="form-label">Бренд / запрос</label>
+        <input type="text" class="text-input" id="brandInput" placeholder="Например: Nike или Rolling Stones" />
         <div class="chips-wrap" id="brandChips">
           <button type="button" class="chip" data-val="Nike">Nike</button>
           <button type="button" class="chip" data-val="Carhartt">Carhartt</button>
           <button type="button" class="chip" data-val="Adidas">Adidas</button>
           <button type="button" class="chip" data-val="Ralph Lauren">Ralph Lauren</button>
           <button type="button" class="chip" data-val="Stone Island">Stone Island</button>
-          <button type="button" class="chip" data-val="StГјssy">StГјssy</button>
+          <button type="button" class="chip" data-val="Stüssy">Stüssy</button>
         </div>
       </div>
 
       <div class="form-group">
-        <label class="form-label">РљР°С‚РµРіРѕСЂРёСЏ <span class="opt">(РЅРµРѕР±СЏР·Р°С‚РµР»СЊРЅРѕ)</span></label>
-        <input type="text" class="text-input" id="categoryInput" placeholder="Р›СЋР±Р°СЏ РєР°С‚РµРіРѕСЂРёСЏ (РёР»Рё РІРІРµРґРёС‚Рµ: РљРѕС„С‚Р°)" />
+        <label class="form-label">Категория <span class="opt">(необязательно)</span></label>
+        <input type="text" class="text-input" id="categoryInput" placeholder="Любая категория (или введите: Кофта)" />
         <div class="chips-wrap" id="categoryChips">
-          <button type="button" class="chip" data-val="РљРѕС„С‚Р°">РљРѕС„С‚Р°</button>
-          <button type="button" class="chip" data-val="РљСѓСЂС‚РєР°">РљСѓСЂС‚РєР°</button>
-          <button type="button" class="chip" data-val="РЎСѓРјРєР°">РЎСѓРјРєР°</button>
-          <button type="button" class="chip" data-val="РљСЂРѕСЃСЃРѕРІРєРё">РљСЂРѕСЃСЃРѕРІРєРё</button>
-          <button type="button" class="chip" data-val="Р”Р¶РёРЅСЃС‹">Р”Р¶РёРЅСЃС‹</button>
+          <button type="button" class="chip" data-val="Кофта">Кофта</button>
+          <button type="button" class="chip" data-val="Куртка">Куртка</button>
+          <button type="button" class="chip" data-val="Сумка">Сумка</button>
+          <button type="button" class="chip" data-val="Кроссовки">Кроссовки</button>
+          <button type="button" class="chip" data-val="Джинсы">Джинсы</button>
         </div>
       </div>
 
       <div class="form-group">
-        <label class="form-label">Р Р°Р·РјРµСЂ</label>
+        <label class="form-label">Размер</label>
         <div class="chips-wrap" id="sizeChips" style="margin-top: 0;">
           <button type="button" class="chip" data-size="XS">XS</button>
           <button type="button" class="chip" data-size="S">S</button>
           <button type="button" class="chip" data-size="M">M</button>
           <button type="button" class="chip" data-size="L">L</button>
           <button type="button" class="chip" data-size="XL">XL</button>
-          <button type="button" class="chip active" data-size="ANY">Р›СЋР±РѕР№</button>
+          <button type="button" class="chip active" data-size="ANY">Любой</button>
         </div>
       </div>
 
-      <div class="form-group" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><div><label class="form-label">Р¦РµРЅР° РѕС‚ (PLN)</label><input type="number" class="text-input" id="minPriceInput" placeholder="РќР°РїСЂРёРјРµСЂ: 20" min="0" /></div><div><label class="form-label">Р¦РµРЅР° РґРѕ (PLN)</label><input type="number" class="text-input" id="priceInput" placeholder="РќР°РїСЂРёРјРµСЂ: 150" min="1" /></div></div>
+      <div class="form-group" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><div><label class="form-label">Цена от (PLN)</label><input type="number" class="text-input" id="minPriceInput" placeholder="Например: 20" min="0" /></div><div><label class="form-label">Цена до (PLN)</label><input type="number" class="text-input" id="priceInput" placeholder="Например: 150" min="1" /></div></div>
 
       <div class="form-group">
-        <label class="form-label">РЎРѕСЃС‚РѕСЏРЅРёРµ</label>
+        <label class="form-label">Состояние</label>
         <div class="chips-wrap" id="conditionChips" style="margin-top: 0;">
-          <button type="button" class="chip active" data-cond="Р›СЋР±РѕРµ">Р›СЋР±РѕРµ</button>
-          <button type="button" class="chip" data-cond="РќРѕРІРѕРµ">РќРѕРІРѕРµ</button>
-          <button type="button" class="chip" data-cond="РћС‚Р»РёС‡РЅРѕРµ">РћС‚Р»РёС‡РЅРѕРµ</button>
-          <button type="button" class="chip" data-cond="РҐРѕСЂРѕС€РµРµ">РҐРѕСЂРѕС€РµРµ</button>
+          <button type="button" class="chip active" data-cond="Любое">Любое</button>
+          <button type="button" class="chip" data-cond="Новое">Новое</button>
+          <button type="button" class="chip" data-cond="Отличное">Отличное</button>
+          <button type="button" class="chip" data-cond="Хорошее">Хорошее</button>
         </div>
       </div>
 
       <div class="error-msg" id="formError"></div>
-      <button type="button" class="primary-btn" id="createFilterBtn">РЎРѕР·РґР°С‚СЊ С„РёР»СЊС‚СЂ</button>
+      <button type="button" class="primary-btn" id="createFilterBtn">Создать фильтр</button>
     </div>
   </div>
 
@@ -709,10 +709,10 @@
         {
           id: 1,
           brand: "Nike",
-          category: "РљРѕС„С‚Р°",
+          category: "Кофта",
           sizes: ["M", "L"],
           max_price: 120,
-          condition: "РћС‚Р»РёС‡РЅРѕРµ",
+          condition: "Отличное",
           active: true
         },
         {
@@ -721,7 +721,7 @@
           category: "",
           sizes: [],
           max_price: 180,
-          condition: "Р›СЋР±РѕРµ",
+          condition: "Любое",
           active: true
         }
       ],
@@ -733,9 +733,9 @@
     };
 
     const mockFeed = [
-      { id: 101, brand: "Nike", title: "Nike Vintage Center Swoosh Hoodie", size: "L", price: 95, time: "2 РјРёРЅ РЅР°Р·Р°Рґ", url: "https://www.vinted.pl" },
-      { id: 102, brand: "Carhartt", title: "Carhartt WIP Kickflip Backpack Black", size: "One Size", price: 140, time: "11 РјРёРЅ РЅР°Р·Р°Рґ", url: "https://www.vinted.pl" },
-      { id: 103, brand: "Nike", title: "Nike Tech Fleece Zip Hoodie Grey", size: "M", price: 115, time: "24 РјРёРЅ РЅР°Р·Р°Рґ", url: "https://www.vinted.pl" }
+      { id: 101, brand: "Nike", title: "Nike Vintage Center Swoosh Hoodie", size: "L", price: 95, time: "2 мин назад", url: "https://www.vinted.pl" },
+      { id: 102, brand: "Carhartt", title: "Carhartt WIP Kickflip Backpack Black", size: "One Size", price: 140, time: "11 мин назад", url: "https://www.vinted.pl" },
+      { id: 103, brand: "Nike", title: "Nike Tech Fleece Zip Hoodie Grey", size: "M", price: 115, time: "24 мин назад", url: "https://www.vinted.pl" }
     ];
 
     function loadState() {
@@ -766,10 +766,10 @@
       const text = document.getElementById("statusText");
       if (activeCount > 0) {
         dot.classList.remove("paused");
-        text.textContent = `РђРєС‚РёРІРЅРѕ вЂў ${activeCount}`;
+        text.textContent = `Активно • ${activeCount}`;
       } else {
         dot.classList.add("paused");
-        text.textContent = "РќР° РїР°СѓР·Рµ";
+        text.textContent = "На паузе";
       }
     }
 
@@ -778,13 +778,13 @@
       updateStatusHeader();
 
       if (!state.filters.length) {
-        list.innerHTML = `<div class="empty-state">РќРµС‚ РґРѕР±Р°РІР»РµРЅРЅС‹С… С„РёР»СЊС‚СЂРѕРІ.<br>РќР°Р¶РјРёС‚Рµ В«+ Р”РѕР±Р°РІРёС‚СЊВ», С‡С‚РѕР±С‹ РЅР°С‡Р°С‚СЊ РјРѕРЅРёС‚РѕСЂРёРЅРі.</div>`;
+        list.innerHTML = `<div class="empty-state">Нет добавленных фильтров.<br>Нажмите «+ Добавить», чтобы начать мониторинг.</div>`;
         return;
       }
 
       list.innerHTML = state.filters.map(f => {
-        const catDisplay = f.category && f.category.trim() ? f.category.trim() : "Р›СЋР±Р°СЏ РєР°С‚РµРіРѕСЂРёСЏ";
-        const sizeDisplay = f.sizes && f.sizes.length ? `Р Р°Р·РјРµСЂ: ${f.sizes.join(", ")}` : "Р›СЋР±РѕР№ СЂР°Р·РјРµСЂ";
+        const catDisplay = f.category && f.category.trim() ? f.category.trim() : "Любая категория";
+        const sizeDisplay = f.sizes && f.sizes.length ? `Размер: ${f.sizes.join(", ")}` : "Любой размер";
         return `
           <div class="filter-card ${f.active ? "" : "inactive"}">
             <div class="filter-top">
@@ -797,13 +797,13 @@
                   <input type="checkbox" ${f.active ? "checked" : ""} onchange="toggleFilter(${f.id})">
                   <span class="slider"></span>
                 </label>
-                <button class="delete-btn" onclick="deleteFilter(${f.id})" title="РЈРґР°Р»РёС‚СЊ">&times;</button>
+                <button class="delete-btn" onclick="deleteFilter(${f.id})" title="Удалить">&times;</button>
               </div>
             </div>
             <div class="filter-meta">
-              <span class="meta-badge">РґРѕ ${f.max_price} PLN</span>
+              <span class="meta-badge">до ${f.max_price} PLN</span>
               <span class="meta-badge">${escapeHtml(sizeDisplay)}</span>
-              ${f.condition && f.condition !== "Р›СЋР±РѕРµ" ? `<span class="meta-badge">${escapeHtml(f.condition)}</span>` : ""}
+              ${f.condition && f.condition !== "Любое" ? `<span class="meta-badge">${escapeHtml(f.condition)}</span>` : ""}
             </div>
           </div>
         `;
@@ -817,7 +817,7 @@
 
       chipsContainer.innerHTML = brands.map(b => `
         <button class="chip ${selectedFeedBrand === b ? "active" : ""}" onclick="setFeedBrand('${escapeHtml(b)}')">
-          ${b === "ALL" ? "Р’СЃРµ" : escapeHtml(b)}
+          ${b === "ALL" ? "Все" : escapeHtml(b)}
         </button>
       `).join("");
 
@@ -826,7 +826,7 @@
         : mockFeed.filter(item => item.brand.toLowerCase() === selectedFeedBrand.toLowerCase());
 
       if (!filtered.length) {
-        feedContainer.innerHTML = `<div class="empty-state">РџРѕРєР° РЅРµС‚ РЅР°С…РѕРґРѕРє РїРѕ РІС‹Р±СЂР°РЅРЅРѕРјСѓ С„РёР»СЊС‚СЂСѓ.</div>`;
+        feedContainer.innerHTML = `<div class="empty-state">Пока нет находок по выбранному фильтру.</div>`;
         return;
       }
 
@@ -834,11 +834,11 @@
         <div class="feed-card">
           <div>
             <div class="feed-title">${escapeHtml(item.title)}</div>
-            <div class="feed-sub">${escapeHtml(item.brand)} вЂў Р Р°Р·РјРµСЂ ${escapeHtml(item.size)} вЂў ${item.time}</div>
+            <div class="feed-sub">${escapeHtml(item.brand)} • Размер ${escapeHtml(item.size)} • ${item.time}</div>
           </div>
           <div class="feed-right">
             <div class="feed-price">${item.price} PLN</div>
-            <a href="${item.url}" target="_blank" class="link-btn">Vinted в†—</a>
+            <a href="${item.url}" target="_blank" class="link-btn">Vinted ↗</a>
           </div>
         </div>
       `).join("");
@@ -894,7 +894,7 @@
 
       document.querySelectorAll("#brandChips .chip, #categoryChips .chip").forEach(c => c.classList.remove("active"));
       document.querySelectorAll("#sizeChips .chip").forEach(c => c.classList.toggle("active", c.dataset.size === "ANY"));
-      document.querySelectorAll("#conditionChips .chip").forEach(c => c.classList.toggle("active", c.dataset.cond === "Р›СЋР±РѕРµ"));
+      document.querySelectorAll("#conditionChips .chip").forEach(c => c.classList.toggle("active", c.dataset.cond === "Любое"));
 
       modal.classList.add("open");
     });
@@ -960,13 +960,13 @@
       const priceVal = parseFloat(document.getElementById("priceInput").value);
 
       if (!brand) {
-        errorEl.textContent = "РЈРєР°Р¶РёС‚Рµ Р±СЂРµРЅРґ РёР»Рё РїРѕРёСЃРєРѕРІС‹Р№ Р·Р°РїСЂРѕСЃ.";
+        errorEl.textContent = "Укажите бренд или поисковый запрос.";
         errorEl.style.display = "block";
         return;
       }
 
       if (!priceVal || priceVal <= 0) {
-        errorEl.textContent = "РЈРєР°Р¶РёС‚Рµ РјР°РєСЃРёРјР°Р»СЊРЅСѓСЋ С†РµРЅСѓ РІ PLN.";
+        errorEl.textContent = "Укажите максимальную цену в PLN.";
         errorEl.style.display = "block";
         return;
       }
@@ -975,14 +975,14 @@
         .map(c => c.dataset.size)
         .filter(s => s !== "ANY");
 
-      const activeCond = document.querySelector("#conditionChips .chip.active")?.dataset.cond || "Р›СЋР±РѕРµ";
+      const activeCond = document.querySelector("#conditionChips .chip.active")?.dataset.cond || "Любое";
 
       const selectedCategories = Array.from(document.querySelectorAll("#categoryChips .chip.active")).map(c => c.dataset.val);
       const manualCategories = category.split(",").map(x => x.trim()).filter(Boolean);
       const finalCategories = Array.from(new Set([...selectedCategories, ...manualCategories]));
       const minPriceVal = Number(document.getElementById("minPriceInput")?.value || 0);
       if (minPriceVal > 0 && priceVal > 0 && minPriceVal > priceVal) {
-        errorEl.textContent = "РњРёРЅРёРјР°Р»СЊРЅР°СЏ С†РµРЅР° РЅРµ РјРѕР¶РµС‚ Р±С‹С‚СЊ Р±РѕР»СЊС€Рµ РјР°РєСЃРёРјР°Р»СЊРЅРѕР№.";
+        errorEl.textContent = "Минимальная цена не может быть больше максимальной.";
         errorEl.style.display = "block";
         return;
       }
@@ -1035,7 +1035,7 @@
       if (tg && tg.sendData) {
         tg.sendData(jsonStr);
       } else {
-        alert("Р”Р°РЅРЅС‹Рµ РіРѕС‚РѕРІС‹ Рє РѕС‚РїСЂР°РІРєРµ Р±РѕС‚Сѓ:
+        alert("Данные готовы к отправке боту:
 
 " + jsonStr);
       }
