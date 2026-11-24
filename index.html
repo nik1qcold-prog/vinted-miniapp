@@ -1,31 +1,46 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" class="dark">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vinted Monitor — Dark Glass</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Vinted Monitor</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
     :root {
-      --bg: #050608;
-      --panel: rgba(18, 21, 28, 0.78);
-      --panel-solid: #12151c;
-      --card: rgba(23, 27, 36, 0.82);
-      --card-hover: rgba(30, 35, 47, 0.95);
-      --border: rgba(255, 255, 255, 0.09);
-      --border-glow: rgba(56, 239, 125, 0.35);
-      --text: #f4f6fb;
-      --muted: #8b93a7;
-      --neon: #38ef7d;
-      --neon-soft: rgba(56, 239, 125, 0.14);
-      --warn: #ffbe3b;
-      --danger: #ff4d6d;
-      --accent: #ffffff;
-      --accent-text: #06070a;
-      --radius-xl: 20px;
+      --bg: #f5f5f7;
+      --surface: #ffffff;
+      --surface-elevated: #f0f0f2;
+      --text: #111111;
+      --text-secondary: #6e6e73;
+      --border: #e5e5ea;
+      --accent: #111111;
+      --accent-text: #ffffff;
+      --chip-bg: #f2f2f7;
+      --chip-active-bg: #111111;
+      --chip-active-text: #ffffff;
+      --danger: #ff3b30;
+      --success: #34c759;
       --radius-lg: 16px;
       --radius-md: 12px;
       --radius-pill: 999px;
+      --shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+    }
+
+    html.dark {
+      --bg: #0d0d0d;
+      --surface: #171717;
+      --surface-elevated: #222222;
+      --text: #f5f5f7;
+      --text-secondary: #8e8e93;
+      --border: #262626;
+      --accent: #ffffff;
+      --accent-text: #0d0d0d;
+      --chip-bg: #222222;
+      --chip-active-bg: #ffffff;
+      --chip-active-text: #0d0d0d;
+      --danger: #ff453a;
+      --success: #30d158;
+      --shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
     }
 
     * {
@@ -36,49 +51,30 @@
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
-      background:
-        radial-gradient(circle at 15% 10%, rgba(56, 239, 125, 0.09), transparent 36%),
-        radial-gradient(circle at 85% 0%, rgba(92, 124, 250, 0.10), transparent 38%),
-        var(--bg);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", Roboto, sans-serif;
+      background-color: var(--bg);
       color: var(--text);
-      min-height: 100vh;
-      padding-bottom: 88px;
+      line-height: 1.4;
+      padding-bottom: 92px;
+      transition: background-color 0.2s ease, color 0.2s ease;
     }
 
-    .app-shell {
-      max-width: 1240px;
+    .container {
+      max-width: 480px;
       margin: 0 auto;
-      padding: 20px 22px;
+      padding: 16px;
     }
 
-    .topbar {
-      position: sticky;
-      top: 12px;
-      z-index: 40;
+    /* Header */
+    .header {
       display: flex;
-      flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      gap: 14px;
-      padding: 14px 18px;
-      border-radius: var(--radius-xl);
-      background: var(--panel);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      border: 1px solid var(--border);
-      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
-      margin-bottom: 22px;
+      margin-bottom: 16px;
     }
 
-    .brand-block {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .brand-title {
-      font-size: 20px;
+    .header-title {
+      font-size: 22px;
       font-weight: 700;
       letter-spacing: -0.02em;
     }
@@ -86,49 +82,49 @@
     .status-pill {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
+      background: var(--surface);
+      border: 1px solid var(--border);
       padding: 6px 12px;
       border-radius: var(--radius-pill);
-      background: var(--neon-soft);
-      border: 1px solid var(--border-glow);
-      color: var(--neon);
       font-size: 12px;
       font-weight: 600;
     }
 
-    .status-pill.paused {
-      background: rgba(255, 77, 109, 0.14);
-      border-color: rgba(255, 77, 109, 0.35);
-      color: var(--danger);
-    }
-
-    .dot {
-      width: 8px;
-      height: 8px;
+    .status-dot {
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
-      background: currentColor;
-      box-shadow: 0 0 10px currentColor;
+      background-color: var(--success);
+      box-shadow: 0 0 8px var(--success);
     }
 
+    .status-dot.paused {
+      background-color: var(--text-secondary);
+      box-shadow: none;
+    }
+
+    /* Tabs */
     .tabs {
-      display: flex;
-      gap: 6px;
-      background: rgba(8, 10, 14, 0.7);
-      padding: 4px;
-      border-radius: var(--radius-md);
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      background: var(--surface);
       border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 4px;
+      margin-bottom: 20px;
     }
 
     .tab-btn {
-      border: none;
       background: transparent;
-      color: var(--muted);
+      border: none;
+      color: var(--text-secondary);
       font-size: 13px;
       font-weight: 600;
-      padding: 8px 16px;
+      padding: 8px 4px;
       border-radius: 9px;
       cursor: pointer;
-      transition: 0.18s ease;
+      transition: all 0.2s ease;
     }
 
     .tab-btn.active {
@@ -144,141 +140,107 @@
       display: block;
     }
 
-    .section-head {
+    /* Filter Cards */
+    .section-header {
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 16px;
+      align-items: center;
+      margin-bottom: 12px;
     }
 
-    .section-title {
+    .section-label {
       font-size: 13px;
-      font-weight: 700;
+      font-weight: 600;
+      color: var(--text-secondary);
       text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--muted);
+      letter-spacing: 0.04em;
     }
 
-    .btn {
+    .add-btn {
+      background: var(--accent);
+      color: var(--accent-text);
       border: none;
       border-radius: var(--radius-pill);
-      padding: 9px 16px;
+      padding: 7px 14px;
       font-size: 13px;
       font-weight: 600;
       cursor: pointer;
-      transition: 0.18s ease;
-    }
-
-    .btn-primary {
-      background: var(--accent);
-      color: var(--accent-text);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 6px 20px rgba(255, 255, 255, 0.18);
-    }
-
-    .btn-ghost {
-      background: var(--card);
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
-
-    .btn-ghost:hover {
-      background: var(--card-hover);
-    }
-
-    .filters-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
-      gap: 14px;
     }
 
     .filter-card {
-      background: var(--card);
+      background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
       padding: 16px;
-      backdrop-filter: blur(12px);
-      transition: 0.2s ease;
-    }
-
-    .filter-card:hover {
-      border-color: rgba(255, 255, 255, 0.2);
-      transform: translateY(-2px);
+      margin-bottom: 12px;
+      box-shadow: var(--shadow);
+      transition: opacity 0.2s ease;
     }
 
     .filter-card.inactive {
-      opacity: 0.52;
+      opacity: 0.55;
     }
 
     .filter-top {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      gap: 10px;
       margin-bottom: 10px;
     }
 
     .filter-brand {
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 700;
+      letter-spacing: -0.01em;
     }
 
-    .filter-sub {
+    .filter-cat {
       font-size: 13px;
-      color: var(--muted);
+      color: var(--text-secondary);
       margin-top: 2px;
     }
 
-    .badges {
+    .filter-meta {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
       margin-top: 10px;
     }
 
-    .badge {
+    .meta-badge {
+      background: var(--surface-elevated);
+      color: var(--text);
       font-size: 12px;
-      font-weight: 600;
+      font-weight: 500;
       padding: 4px 10px;
       border-radius: var(--radius-pill);
-      background: rgba(255, 255, 255, 0.06);
-      color: var(--text);
     }
 
-    .badge.excl {
-      background: rgba(255, 77, 109, 0.14);
-      color: #ff8fa3;
-    }
-
-    .card-actions {
+    .filter-actions {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
     }
 
-    .icon-btn {
+    .delete-btn {
       background: transparent;
       border: none;
-      color: var(--muted);
-      font-size: 20px;
+      color: var(--text-secondary);
+      font-size: 18px;
       cursor: pointer;
-      line-height: 1;
       padding: 4px;
     }
 
-    .icon-btn:hover {
+    .delete-btn:hover {
       color: var(--danger);
     }
 
+    /* Switch */
     .switch {
       position: relative;
       display: inline-block;
-      width: 42px;
-      height: 24px;
+      width: 44px;
+      height: 26px;
     }
 
     .switch input {
@@ -289,404 +251,359 @@
 
     .slider {
       position: absolute;
-      inset: 0;
       cursor: pointer;
-      background: rgba(255, 255, 255, 0.12);
+      inset: 0;
+      background-color: var(--surface-elevated);
       border: 1px solid var(--border);
-      border-radius: 999px;
       transition: 0.2s;
+      border-radius: 34px;
     }
 
     .slider:before {
-      content: "";
       position: absolute;
-      width: 18px;
-      height: 18px;
+      content: "";
+      height: 20px;
+      width: 20px;
       left: 2px;
       bottom: 2px;
-      border-radius: 50%;
-      background: var(--muted);
+      background-color: var(--text-secondary);
       transition: 0.2s;
+      border-radius: 50%;
     }
 
     input:checked + .slider {
-      background: var(--neon-soft);
-      border-color: var(--neon);
+      background-color: var(--accent);
+      border-color: var(--accent);
     }
 
     input:checked + .slider:before {
       transform: translateX(18px);
-      background: var(--neon);
-      box-shadow: 0 0 8px var(--neon);
+      background-color: var(--accent-text);
     }
 
-    .feed-toolbar {
+    /* Feed Cards */
+    .feed-filters {
       display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-
-    .chips {
-      display: flex;
-      flex-wrap: wrap;
       gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+      scrollbar-width: none;
     }
 
-    .chip {
-      border: 1px solid var(--border);
-      background: var(--card);
-      color: var(--muted);
-      border-radius: var(--radius-pill);
-      padding: 6px 14px;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
+    .feed-filters::-webkit-scrollbar {
+      display: none;
     }
 
-    .chip.active {
-      background: var(--neon);
-      color: #050708;
-      border-color: var(--neon);
-    }
-
-    .feed-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
-      gap: 16px;
-    }
-
-    .item-card {
-      background: var(--card);
+    .feed-card {
+      background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      transition: 0.2s ease;
-    }
-
-    .item-card:hover {
-      border-color: var(--border-glow);
-      transform: translateY(-3px);
-    }
-
-    .item-thumb-wrap {
-      position: relative;
-      height: 210px;
-      background: #0b0d12;
-      overflow: hidden;
-    }
-
-    .item-thumb {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .item-no-img {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .deal-tag {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: rgba(5, 7, 8, 0.85);
-      color: var(--neon);
-      border: 1px solid var(--border-glow);
-      padding: 4px 10px;
-      border-radius: var(--radius-pill);
-      font-size: 12px;
-      font-weight: 700;
-      box-shadow: 0 0 14px rgba(56, 239, 125, 0.25);
-    }
-
-    .item-body {
       padding: 14px;
+      margin-bottom: 10px;
       display: flex;
-      flex-direction: column;
-      gap: 10px;
-      flex: 1;
-    }
-
-    .item-title {
-      font-size: 15px;
-      font-weight: 600;
-      line-height: 1.35;
-    }
-
-    .item-meta {
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    .price-row {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      margin-top: auto;
-      padding-top: 6px;
-    }
-
-    .price-pln {
-      font-size: 18px;
-      font-weight: 800;
-      color: var(--neon);
-    }
-
-    .price-byn {
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    .item-link {
-      display: block;
-      text-align: center;
-      text-decoration: none;
-      background: rgba(255, 255, 255, 0.08);
-      color: var(--text);
-      font-size: 13px;
-      font-weight: 600;
-      padding: 9px 12px;
-      border-radius: var(--radius-md);
-      border: 1px solid var(--border);
-    }
-
-    .item-link:hover {
-      background: var(--accent);
-      color: var(--accent-text);
-    }
-
-    .settings-panel {
-      max-width: 680px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 20px;
-    }
-
-    .setting-item {
-      display: flex;
-      flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
       gap: 12px;
-      padding: 14px 0;
+    }
+
+    .feed-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .feed-sub {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .feed-right {
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .feed-price {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .link-btn {
+      display: inline-block;
+      text-decoration: none;
+      background: var(--surface-elevated);
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: var(--radius-pill);
+    }
+
+    /* Settings */
+    .settings-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+
+    .setting-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
       border-bottom: 1px solid var(--border);
     }
 
-    .setting-item:first-child {
-      padding-top: 0;
-    }
-
-    .setting-item:last-child {
+    .setting-row:last-child {
       border-bottom: none;
       padding-bottom: 0;
     }
 
-    .setting-name {
+    .setting-row:first-child {
+      padding-top: 0;
+    }
+
+    .setting-title {
       font-size: 15px;
-      font-weight: 600;
+      font-weight: 500;
     }
 
     .setting-desc {
       font-size: 12px;
-      color: var(--muted);
-      margin-top: 2px;
+      color: var(--text-secondary);
     }
 
-    .input, select.input {
-      background: rgba(8, 10, 14, 0.85);
+    select.minimal-select {
+      background: var(--surface-elevated);
       color: var(--text);
       border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 10px 12px;
-      font-size: 14px;
+      border-radius: 10px;
+      padding: 6px 10px;
+      font-size: 13px;
+      font-weight: 600;
       outline: none;
     }
 
-    .input:focus {
-      border-color: var(--neon);
-    }
-
-    .modal {
+    /* Bottom Sheet Modal */
+    .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.72);
-      backdrop-filter: blur(6px);
+      background: rgba(0, 0, 0, 0.6);
       display: none;
-      align-items: center;
+      align-items: flex-end;
       justify-content: center;
-      padding: 16px;
       z-index: 100;
     }
 
-    .modal.open {
+    .modal-backdrop.open {
       display: flex;
     }
 
-    .modal-box {
+    .sheet {
+      background: var(--surface);
       width: 100%;
-      max-width: 520px;
-      background: var(--panel-solid);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-xl);
-      padding: 22px;
+      max-width: 480px;
+      border-top-left-radius: 24px;
+      border-top-right-radius: 24px;
+      padding: 14px 18px 28px;
+      border-top: 1px solid var(--border);
       max-height: 90vh;
       overflow-y: auto;
+      animation: slideUp 0.22s ease-out;
     }
 
-    .modal-head {
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    .sheet-handle {
+      width: 36px;
+      height: 4px;
+      background: var(--border);
+      border-radius: 99px;
+      margin: 0 auto 14px;
+    }
+
+    .sheet-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 16px;
     }
 
-    .modal-title {
+    .sheet-title {
       font-size: 18px;
       font-weight: 700;
     }
 
-    .field {
-      margin-bottom: 14px;
+    .close-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 22px;
+      cursor: pointer;
     }
 
-    .field label {
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-label {
       display: block;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
-      color: var(--muted);
+      color: var(--text-secondary);
       text-transform: uppercase;
-      margin-bottom: 6px;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
     }
 
-    .field .input {
+    .form-label span.opt {
+      font-weight: 400;
+      text-transform: none;
+      opacity: 0.75;
+    }
+
+    .text-input {
       width: 100%;
+      background: var(--surface-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      color: var(--text);
+      font-size: 15px;
+      outline: none;
     }
 
-    .err {
+    .text-input:focus {
+      border-color: var(--accent);
+    }
+
+    .chips-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .chip {
+      background: var(--chip-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-pill);
+      padding: 7px 14px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .chip.active {
+      background: var(--chip-active-bg);
+      color: var(--chip-active-text);
+      border-color: var(--chip-active-bg);
+      font-weight: 600;
+    }
+
+    .error-msg {
       color: var(--danger);
       font-size: 13px;
       margin-bottom: 12px;
       display: none;
     }
 
-    .footer-dock {
+    .primary-btn {
+      width: 100%;
+      background: var(--accent);
+      color: var(--accent-text);
+      border: none;
+      border-radius: var(--radius-md);
+      padding: 14px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* Sticky Footer */
+    .footer-bar {
       position: fixed;
+      bottom: 0;
       left: 0;
       right: 0;
-      bottom: 0;
-      background: rgba(8, 10, 14, 0.88);
-      backdrop-filter: blur(14px);
+      background: var(--bg);
       border-top: 1px solid var(--border);
-      padding: 12px 22px;
+      padding: 12px 16px;
       z-index: 50;
     }
 
     .footer-inner {
-      max-width: 1240px;
+      max-width: 480px;
       margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
     }
 
-    .footer-hint {
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    .empty {
-      padding: 36px 18px;
+    .empty-state {
       text-align: center;
-      color: var(--muted);
-      background: var(--card);
-      border: 1px dashed var(--border);
-      border-radius: var(--radius-lg);
+      padding: 36px 16px;
+      color: var(--text-secondary);
+      font-size: 14px;
     }
   </style>
 </head>
 <body>
-  <div class="app-shell">
-    <header class="topbar">
-      <div class="brand-block">
-        <div class="brand-title">Vinted Monitor</div>
-        <div class="status-pill" id="statusPill">
-          <span class="dot"></span>
-          <span id="statusLabel">Активно • 2</span>
-        </div>
+  <div class="container">
+    <div class="header">
+      <div class="header-title">Vinted Monitor</div>
+      <div class="status-pill">
+        <span class="status-dot" id="statusDot"></span>
+        <span id="statusText">РђРєС‚РёРІРЅРѕ вЂў 2</span>
       </div>
+    </div>
 
-      <nav class="tabs">
-        <button type="button" class="tab-btn active" data-tab="filters">Фильтры</button>
-        <button type="button" class="tab-btn" data-tab="feed">Лента</button>
-        <button type="button" class="tab-btn" data-tab="settings">Настройки</button>
-      </nav>
-    </header>
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="filters">Р¤РёР»СЊС‚СЂС‹</button>
+      <button class="tab-btn" data-tab="feed">Р›РµРЅС‚Р°</button>
+      <button class="tab-btn" data-tab="settings">РќР°СЃС‚СЂРѕР№РєРё</button>
+    </div>
 
-    <section class="section active" id="tab-filters">
-      <div class="section-head">
-        <div class="section-title">Мои фильтры</div>
-        <button type="button" class="btn btn-primary" id="openAddBtn">+ Добавить фильтр</button>
+    <!-- Filters Tab -->
+    <div class="section active" id="tab-filters">
+      <div class="section-header">
+        <span class="section-label">РњРѕРё С„РёР»СЊС‚СЂС‹</span>
+        <button class="add-btn" id="openModalBtn">+ Р”РѕР±Р°РІРёС‚СЊ</button>
       </div>
-      <div class="filters-grid" id="filtersGrid"></div>
-    </section>
+      <div id="filtersList"></div>
+    </div>
 
-    <section class="section" id="tab-feed">
-      <div class="feed-toolbar">
-        <div class="chips" id="brandChips"></div>
-        <button type="button" class="btn btn-ghost" id="refreshFeedBtn">Обновить ленту</button>
-      </div>
-      <div class="feed-grid" id="feedGrid"></div>
-    </section>
+    <!-- Feed Tab -->
+    <div class="section" id="tab-feed">
+      <div class="feed-filters" id="feedFilterChips"></div>
+      <div id="feedList"></div>
+    </div>
 
-    <section class="section" id="tab-settings">
-      <div class="settings-panel">
-        <div class="setting-item">
+    <!-- Settings Tab -->
+    <div class="section" id="tab-settings">
+      <div class="settings-card">
+        <div class="setting-row">
           <div>
-            <div class="setting-name">Интервал проверки</div>
-            <div class="setting-desc">Базовый период опроса Vinted.pl (с лёгким случайным разбросом)</div>
+            <div class="setting-title">РРЅС‚РµСЂРІР°Р» РїСЂРѕРІРµСЂРєРё</div>
+            <div class="setting-desc">РљР°Рє С‡Р°СЃС‚Рѕ Р±РѕС‚ СЃРєР°РЅРёСЂСѓРµС‚ Vinted.pl</div>
           </div>
-          <select class="input" id="intervalSelect">
-            <option value="30">30 сек</option>
-            <option value="60" selected>1 мин</option>
-            <option value="180">3 мин</option>
-            <option value="300">5 мин</option>
+          <select class="minimal-select" id="intervalSelect">
+            <option value="30">30 СЃРµРє</option>
+            <option value="60" selected>1 РјРёРЅ</option>
+            <option value="180">3 РјРёРЅ</option>
+            <option value="300">5 РјРёРЅ</option>
           </select>
         </div>
 
-        <div class="setting-item">
+        <div class="setting-row">
           <div>
-            <div class="setting-name">Курс PLN → BYN (для подсказок цены)</div>
-            <div class="setting-desc">Примерный пересчёт злотых в белорусские рубли</div>
-          </div>
-          <input type="number" step="0.01" min="0.1" class="input" id="plnRateInput" style="width: 110px;" />
-        </div>
-
-        <div class="setting-item">
-          <div>
-            <div class="setting-name">Порог «Выгодная цена» (%)</div>
-            <div class="setting-desc">Насколько ниже средней по истории должен быть лот для бейджа</div>
-          </div>
-          <input type="number" min="5" max="80" class="input" id="dealThresholdInput" style="width: 110px;" />
-        </div>
-
-        <div class="setting-item">
-          <div>
-            <div class="setting-name">Беззвучные уведомления</div>
-            <div class="setting-desc">Отправлять находки в Telegram без звука</div>
+            <div class="setting-title">Р‘РµР·Р·РІСѓС‡РЅС‹Рµ СѓРІРµРґРѕРјР»РµРЅРёСЏ</div>
+            <div class="setting-desc">РћС‚РїСЂР°РІР»СЏС‚СЊ РЅР°С…РѕРґРєРё Р±РµР· Р·РІСѓРєР°</div>
           </div>
           <label class="switch">
             <input type="checkbox" id="silentToggle" />
@@ -694,480 +611,439 @@
           </label>
         </div>
 
-        <div class="setting-item" style="flex-direction: column; align-items: stretch;">
+        <div class="setting-row">
           <div>
-            <div class="setting-name">URL API живой ленты (опционально)</div>
-            <div class="setting-desc">Например: <code>http://IP_СЕРВЕРА:8080/api/items</code> (если пусто — используется демо-лента)</div>
+            <div class="setting-title">РўС‘РјРЅР°СЏ С‚РµРјР°</div>
+            <div class="setting-desc">РњРёРЅРёРјР°Р»РёСЃС‚РёС‡РЅС‹Р№ РЅРѕС‡РЅРѕР№ СЂРµР¶РёРј</div>
           </div>
-          <input type="text" class="input" id="apiUrlInput" placeholder="http://185.x.x.x:8080/api/items" style="margin-top: 8px;" />
-        </div>
-
-        <div class="setting-item" style="flex-direction: column; align-items: stretch;">
-          <div>
-            <div class="setting-name">Резервные прокси (по одному в строке)</div>
-            <div class="setting-desc">Формат: <code>http://user:pass@ip:port</code> или <code>socks5://ip:port</code></div>
-          </div>
-          <textarea class="input" id="proxiesTextarea" rows="3" placeholder="http://user:pass@1.2.3.4:8000" style="margin-top: 8px; resize: vertical;"></textarea>
+          <label class="switch">
+            <input type="checkbox" id="themeToggle" checked />
+            <span class="slider"></span>
+          </label>
         </div>
       </div>
-    </section>
-  </div>
-
-  <div class="footer-dock">
-    <div class="footer-inner">
-      <span class="footer-hint" id="footerHint">Изменения сохраняются локально — нажмите кнопку для отправки в бота</span>
-      <button type="button" class="btn btn-primary" id="sendBotBtn">Сохранить и отправить боту</button>
     </div>
   </div>
 
-  <div class="modal" id="filterModal">
-    <div class="modal-box">
-      <div class="modal-head">
-        <div class="modal-title">Новый фильтр</div>
-        <button type="button" class="icon-btn" id="closeModalBtn">&times;</button>
+  <!-- Sticky Save Button -->
+  <div class="footer-bar">
+    <div class="footer-inner">
+      <button class="primary-btn" id="syncBtn">РЎРѕС…СЂР°РЅРёС‚СЊ Рё РѕС‚РїСЂР°РІРёС‚СЊ Р±РѕС‚Сѓ</button>
+    </div>
+  </div>
+
+  <!-- Add Filter Modal -->
+  <div class="modal-backdrop" id="filterModal">
+    <div class="sheet">
+      <div class="sheet-handle"></div>
+      <div class="sheet-header">
+        <div class="sheet-title">РќРѕРІС‹Р№ С„РёР»СЊС‚СЂ</div>
+        <button class="close-btn" id="closeModalBtn">&times;</button>
       </div>
 
-      <div class="field">
-        <label>Бренд или запрос</label>
-        <input type="text" class="input" id="fBrand" placeholder="Например: Nike, Carhartt, Stussy" />
-        <div class="chips" style="margin-top: 8px;" id="quickBrands">
-          <button type="button" class="chip" data-qb="Nike">Nike</button>
-          <button type="button" class="chip" data-qb="Carhartt">Carhartt</button>
-          <button type="button" class="chip" data-qb="Adidas">Adidas</button>
-          <button type="button" class="chip" data-qb="Ralph Lauren">Ralph Lauren</button>
-          <button type="button" class="chip" data-qb="Stone Island">Stone Island</button>
+      <div class="form-group">
+        <label class="form-label">Р‘СЂРµРЅРґ / Р·Р°РїСЂРѕСЃ</label>
+        <input type="text" class="text-input" id="brandInput" placeholder="РќР°РїСЂРёРјРµСЂ: Nike РёР»Рё Rolling Stones" />
+        <div class="chips-wrap" id="brandChips">
+          <button type="button" class="chip" data-val="Nike">Nike</button>
+          <button type="button" class="chip" data-val="Carhartt">Carhartt</button>
+          <button type="button" class="chip" data-val="Adidas">Adidas</button>
+          <button type="button" class="chip" data-val="Ralph Lauren">Ralph Lauren</button>
+          <button type="button" class="chip" data-val="Stone Island">Stone Island</button>
+          <button type="button" class="chip" data-val="StГјssy">StГјssy</button>
         </div>
       </div>
 
-      <div class="field">
-        <label>Категория (необязательно)</label>
-        <input type="text" class="input" id="fCategory" placeholder="Например: Худи, Куртка, Сумка (или оставьте пустым)" />
+      <div class="form-group">
+        <label class="form-label">РљР°С‚РµРіРѕСЂРёСЏ <span class="opt">(РЅРµРѕР±СЏР·Р°С‚РµР»СЊРЅРѕ)</span></label>
+        <input type="text" class="text-input" id="categoryInput" placeholder="Р›СЋР±Р°СЏ РєР°С‚РµРіРѕСЂРёСЏ (РёР»Рё РІРІРµРґРёС‚Рµ: РљРѕС„С‚Р°)" />
+        <div class="chips-wrap" id="categoryChips">
+          <button type="button" class="chip" data-val="РљРѕС„С‚Р°">РљРѕС„С‚Р°</button>
+          <button type="button" class="chip" data-val="РљСѓСЂС‚РєР°">РљСѓСЂС‚РєР°</button>
+          <button type="button" class="chip" data-val="РЎСѓРјРєР°">РЎСѓРјРєР°</button>
+          <button type="button" class="chip" data-val="РљСЂРѕСЃСЃРѕРІРєРё">РљСЂРѕСЃСЃРѕРІРєРё</button>
+          <button type="button" class="chip" data-val="Р”Р¶РёРЅСЃС‹">Р”Р¶РёРЅСЃС‹</button>
+        </div>
       </div>
 
-      <div class="field">
-        <label>Размеры (через запятую, пусто = любой)</label>
-        <input type="text" class="input" id="fSizes" placeholder="M, L" />
+      <div class="form-group">
+        <label class="form-label">Р Р°Р·РјРµСЂ</label>
+        <div class="chips-wrap" id="sizeChips" style="margin-top: 0;">
+          <button type="button" class="chip" data-size="XS">XS</button>
+          <button type="button" class="chip" data-size="S">S</button>
+          <button type="button" class="chip" data-size="M">M</button>
+          <button type="button" class="chip" data-size="L">L</button>
+          <button type="button" class="chip" data-size="XL">XL</button>
+          <button type="button" class="chip active" data-size="ANY">Р›СЋР±РѕР№</button>
+        </div>
       </div>
 
-      <div class="field">
-        <label>Максимальная цена (PLN)</label>
-        <input type="number" class="input" id="fMaxPrice" min="1" placeholder="150" />
+      <div class="form-group" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><div><label class="form-label">Р¦РµРЅР° РѕС‚ (PLN)</label><input type="number" class="text-input" id="minPriceInput" placeholder="РќР°РїСЂРёРјРµСЂ: 20" min="0" /></div><div><label class="form-label">Р¦РµРЅР° РґРѕ (PLN)</label><input type="number" class="text-input" id="priceInput" placeholder="РќР°РїСЂРёРјРµСЂ: 150" min="1" /></div></div>
+
+      <div class="form-group">
+        <label class="form-label">РЎРѕСЃС‚РѕСЏРЅРёРµ</label>
+        <div class="chips-wrap" id="conditionChips" style="margin-top: 0;">
+          <button type="button" class="chip active" data-cond="Р›СЋР±РѕРµ">Р›СЋР±РѕРµ</button>
+          <button type="button" class="chip" data-cond="РќРѕРІРѕРµ">РќРѕРІРѕРµ</button>
+          <button type="button" class="chip" data-cond="РћС‚Р»РёС‡РЅРѕРµ">РћС‚Р»РёС‡РЅРѕРµ</button>
+          <button type="button" class="chip" data-cond="РҐРѕСЂРѕС€РµРµ">РҐРѕСЂРѕС€РµРµ</button>
+        </div>
       </div>
 
-      <div class="field">
-        <label>Состояние</label>
-        <select class="input" id="fCondition">
-          <option value="Любое">Любое</option>
-          <option value="Новое">Новое</option>
-          <option value="Отличное">Отличное</option>
-          <option value="Хорошее">Хорошее</option>
-        </select>
-      </div>
-
-      <div class="field">
-        <label>Минус-слова (через запятую)</label>
-        <input type="text" class="input" id="fExclude" placeholder="fake, replica, kids, socks" />
-      </div>
-
-      <div class="err" id="modalErr"></div>
-      <button type="button" class="btn btn-primary" style="width: 100%; border-radius: 12px; padding: 12px;" id="saveFilterBtn">
-        Добавить фильтр
-      </button>
+      <div class="error-msg" id="formError"></div>
+      <button type="button" class="primary-btn" id="createFilterBtn">РЎРѕР·РґР°С‚СЊ С„РёР»СЊС‚СЂ</button>
     </div>
   </div>
 
   <script>
-    (function () {
-      const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
-      if (tg) {
-        tg.ready();
-        tg.expand();
-      }
+    const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
+    if (tg) {
+      tg.ready();
+      tg.expand();
+    }
 
-      const STORAGE_KEY = "vinted_monitor_dark_glass_v1";
+    const STORAGE_KEY = "vinted_monitor_state_v2";
 
-      const defaultState = {
-        filters: [
-          {
-            id: 1,
-            brand: "Nike",
-            category: "Худи",
-            sizes: ["M", "L"],
-            max_price: 150,
-            condition: "Любое",
-            exclude_words: ["fake", "replica", "kids"],
-            active: true
-          },
-          {
-            id: 2,
-            brand: "Carhartt",
-            category: "",
-            sizes: [],
-            max_price: 180,
-            condition: "Отличное",
-            exclude_words: ["fake"],
-            active: true
-          }
-        ],
-        settings: {
-          interval: 60,
-          pln_rate: 0.85,
-          deal_threshold: 25,
-          silent: false,
-          api_url: "",
-          proxies: []
-        }
-      };
-
-      const demoFeed = [
+    const defaultState = {
+      filters: [
         {
-          id: 9001,
+          id: 1,
           brand: "Nike",
-          title: "Nike Vintage Center Swoosh Hoodie",
-          size: "L",
-          price_pln: 75,
-          discount_pct: 35,
-          age_text: "2 мин назад",
-          photo_url: "",
-          url: "https://www.vinted.pl"
-        },
-        {
-          id: 9002,
-          brand: "Carhartt",
-          title: "Carhartt WIP Utility Bag Olive",
-          size: "One Size",
-          price_pln: 95,
-          discount_pct: 28,
-          age_text: "7 мин назад",
-          photo_url: "",
-          url: "https://www.vinted.pl"
-        },
-        {
-          id: 9003,
-          brand: "Nike",
-          title: "Nike Tech Fleece Full-Zip Black",
-          size: "M",
-          price_pln: 120,
-          discount_pct: 12,
-          age_text: "15 мин назад",
-          photo_url: "",
-          url: "https://www.vinted.pl"
-        }
-      ];
-
-      function loadState() {
-        try {
-          const raw = localStorage.getItem(STORAGE_KEY);
-          if (raw) {
-            const parsed = JSON.parse(raw);
-            if (parsed && Array.isArray(parsed.filters) && parsed.settings) {
-              return {
-                filters: parsed.filters,
-                settings: Object.assign({}, defaultState.settings, parsed.settings)
-              };
-            }
-          }
-        } catch (e) {}
-        return JSON.parse(JSON.stringify(defaultState));
-      }
-
-      let state = loadState();
-      let feedItems = demoFeed.slice();
-      let activeBrandFilter = "ALL";
-
-      function saveState() {
-        try {
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-        } catch (e) {}
-      }
-
-      function esc(v) {
-        return String(v || "")
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;")
-          .replace(/"/g, "&quot;");
-      }
-
-      function updateHeader() {
-        const activeCnt = state.filters.filter(f => f.active).length;
-        const pill = document.getElementById("statusPill");
-        const label = document.getElementById("statusLabel");
-        if (activeCnt > 0) {
-          pill.classList.remove("paused");
-          label.textContent = "Активно • " + activeCnt;
-        } else {
-          pill.classList.add("paused");
-          label.textContent = "На паузе";
-        }
-      }
-
-      function renderFilters() {
-        updateHeader();
-        const grid = document.getElementById("filtersGrid");
-        if (!state.filters.length) {
-          grid.innerHTML = '<div class="empty">Фильтров пока нет. Нажмите «+ Добавить фильтр».</div>';
-          return;
-        }
-
-        grid.innerHTML = state.filters.map(f => {
-          const cat = f.category && f.category.trim() ? f.category.trim() : "Любая категория";
-          const sz = f.sizes && f.sizes.length ? "Размер: " + f.sizes.join(", ") : "Любой размер";
-          const excl = (f.exclude_words || []).map(w =>
-            '<span class="badge excl">-' + esc(w) + "</span>"
-          ).join("");
-
-          return (
-            '<div class="filter-card ' + (f.active ? "" : "inactive") + '">' +
-              '<div class="filter-top">' +
-                '<div>' +
-                  '<div class="filter-brand">' + esc(f.brand) + "</div>" +
-                  '<div class="filter-sub">' + esc(cat) + "</div>" +
-                "</div>" +
-                '<div class="card-actions">' +
-                  '<label class="switch">' +
-                    '<input type="checkbox" data-toggle="' + f.id + '" ' + (f.active ? "checked" : "") + ">" +
-                    '<span class="slider"></span>' +
-                  "</label>" +
-                  '<button type="button" class="icon-btn" data-del="' + f.id + '" title="Удалить">&times;</button>' +
-                "</div>" +
-              "</div>" +
-              '<div class="badges">' +
-                '<span class="badge">до ' + esc(f.max_price) + " PLN</span>" +
-                '<span class="badge">' + esc(sz) + "</span>" +
-                '<span class="badge">' + esc(f.condition || "Любое") + "</span>" +
-                excl +
-              "</div>" +
-            "</div>"
-          );
-        }).join("");
-
-        grid.querySelectorAll("[data-toggle]").forEach(inp => {
-          inp.addEventListener("change", () => {
-            const f = state.filters.find(x => x.id === Number(inp.getAttribute("data-toggle")));
-            if (f) {
-              f.active = inp.checked;
-              saveState();
-              renderFilters();
-            }
-          });
-        });
-
-        grid.querySelectorAll("[data-del]").forEach(btn => {
-          btn.addEventListener("click", () => {
-            state.filters = state.filters.filter(x => x.id !== Number(btn.getAttribute("data-del")));
-            saveState();
-            renderFilters();
-            renderFeed();
-          });
-        });
-      }
-
-      function renderFeed() {
-        const chipsBox = document.getElementById("brandChips");
-        const feedGrid = document.getElementById("feedGrid");
-        const brands = ["ALL"].concat(Array.from(new Set(feedItems.map(i => i.brand).filter(Boolean))));
-
-        chipsBox.innerHTML = brands.map(b => (
-          '<button type="button" class="chip ' + (activeBrandFilter === b ? "active" : "") + '" data-b="' + esc(b) + '">' +
-            (b === "ALL" ? "Все" : esc(b)) +
-          "</button>"
-        )).join("");
-
-        chipsBox.querySelectorAll("[data-b]").forEach(btn => {
-          btn.addEventListener("click", () => {
-            activeBrandFilter = btn.getAttribute("data-b");
-            renderFeed();
-          });
-        });
-
-        const list = activeBrandFilter === "ALL"
-          ? feedItems
-          : feedItems.filter(i => (i.brand || "").toLowerCase() === activeBrandFilter.toLowerCase());
-
-        if (!list.length) {
-          feedGrid.innerHTML = '<div class="empty">Находок по выбранному фильтру пока нет.</div>';
-          return;
-        }
-
-        const rate = Number(state.settings.pln_rate) || 0.85;
-        const threshold = Number(state.settings.deal_threshold) || 25;
-
-        feedGrid.innerHTML = list.map(item => {
-          const pricePln = Number(item.price_pln || item.price || 0);
-          const bynVal = (pricePln * rate).toFixed(2);
-          const disc = Number(item.discount_pct || 0);
-          const dealBadge = disc >= threshold
-            ? '<div class="deal-tag">🔥 -' + esc(disc) + "%</div>"
-            : "";
-
-          const imgHtml = item.photo_url
-            ? '<img class="item-thumb" src="' + esc(item.photo_url) + '" alt="' + esc(item.title) + '" loading="lazy" />'
-            : '<div class="item-no-img">Превью появится после запуска парсера</div>';
-
-          return (
-            '<article class="item-card">' +
-              '<div class="item-thumb-wrap">' + imgHtml + dealBadge + "</div>" +
-              '<div class="item-body">' +
-                '<div class="item-title">' + esc(item.title) + "</div>" +
-                '<div class="item-meta">' + esc(item.brand || "") + " • " + esc(item.size || "—") + " • " + esc(item.age_text || "недавно") + "</div>" +
-                '<div class="price-row">' +
-                  '<span class="price-pln">' + esc(pricePln) + " PLN</span>" +
-                  '<span class="price-byn">≈ ' + esc(bynVal) + " BYN</span>" +
-                "</div>" +
-                '<a class="item-link" href="' + esc(item.url || "https://www.vinted.pl") + '" target="_blank" rel="noopener noreferrer">Открыть на Vinted ↗</a>' +
-              "</div>" +
-            "</article>"
-          );
-        }).join("");
-      }
-
-      async function fetchLiveFeed() {
-        const apiUrl = (state.settings.api_url || "").trim();
-        if (!apiUrl) {
-          feedItems = demoFeed.slice();
-          renderFeed();
-          return;
-        }
-        try {
-          const res = await fetch(apiUrl, { cache: "no-store" });
-          if (!res.ok) throw new Error("HTTP " + res.status);
-          const data = await res.json();
-          if (Array.isArray(data.items)) {
-            feedItems = data.items;
-            renderFeed();
-          }
-        } catch (e) {
-          renderFeed();
-        }
-      }
-
-      document.querySelectorAll(".tab-btn").forEach(btn => {
-        btn.addEventListener("click", () => {
-          const t = btn.getAttribute("data-tab");
-          document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
-          document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
-          btn.classList.add("active");
-          document.getElementById("tab-" + t).classList.add("active");
-          if (t === "feed") fetchLiveFeed();
-        });
-      });
-
-      document.getElementById("refreshFeedBtn").addEventListener("click", fetchLiveFeed);
-
-      const modal = document.getElementById("filterModal");
-      const modalErr = document.getElementById("modalErr");
-
-      document.getElementById("openAddBtn").addEventListener("click", () => {
-        document.getElementById("fBrand").value = "";
-        document.getElementById("fCategory").value = "";
-        document.getElementById("fSizes").value = "";
-        document.getElementById("fMaxPrice").value = "";
-        document.getElementById("fCondition").value = "Любое";
-        document.getElementById("fExclude").value = "";
-        modalErr.style.display = "none";
-        modal.classList.add("open");
-      });
-
-      document.getElementById("closeModalBtn").addEventListener("click", () => modal.classList.remove("open"));
-      modal.addEventListener("click", e => {
-        if (e.target === modal) modal.classList.remove("open");
-      });
-
-      document.querySelectorAll("#quickBrands .chip").forEach(c => {
-        c.addEventListener("click", () => {
-          document.getElementById("fBrand").value = c.getAttribute("data-qb");
-        });
-      });
-
-      document.getElementById("saveFilterBtn").addEventListener("click", () => {
-        const brand = document.getElementById("fBrand").value.trim();
-        const category = document.getElementById("fCategory").value.trim();
-        const sizes = document.getElementById("fSizes").value
-          .split(",")
-          .map(s => s.trim())
-          .filter(Boolean);
-        const maxPrice = Number(document.getElementById("fMaxPrice").value);
-        const condition = document.getElementById("fCondition").value;
-        const excludeWords = document.getElementById("fExclude").value
-          .split(",")
-          .map(s => s.trim().toLowerCase())
-          .filter(Boolean);
-
-        if (!brand) {
-          modalErr.textContent = "Укажите бренд или поисковый запрос.";
-          modalErr.style.display = "block";
-          return;
-        }
-        if (!maxPrice || maxPrice <= 0) {
-          modalErr.textContent = "Укажите максимальную цену в PLN.";
-          modalErr.style.display = "block";
-          return;
-        }
-
-        state.filters.unshift({
-          id: Date.now(),
-          brand,
-          category,
-          sizes,
-          max_price: maxPrice,
-          condition,
-          exclude_words: excludeWords,
+          category: "РљРѕС„С‚Р°",
+          sizes: ["M", "L"],
+          max_price: 120,
+          condition: "РћС‚Р»РёС‡РЅРѕРµ",
           active: true
-        });
+        },
+        {
+          id: 2,
+          brand: "Carhartt",
+          category: "",
+          sizes: [],
+          max_price: 180,
+          condition: "Р›СЋР±РѕРµ",
+          active: true
+        }
+      ],
+      settings: {
+        interval: 60,
+        silent: false,
+        dark: true
+      }
+    };
 
+    const mockFeed = [
+      { id: 101, brand: "Nike", title: "Nike Vintage Center Swoosh Hoodie", size: "L", price: 95, time: "2 РјРёРЅ РЅР°Р·Р°Рґ", url: "https://www.vinted.pl" },
+      { id: 102, brand: "Carhartt", title: "Carhartt WIP Kickflip Backpack Black", size: "One Size", price: 140, time: "11 РјРёРЅ РЅР°Р·Р°Рґ", url: "https://www.vinted.pl" },
+      { id: 103, brand: "Nike", title: "Nike Tech Fleece Zip Hoodie Grey", size: "M", price: 115, time: "24 РјРёРЅ РЅР°Р·Р°Рґ", url: "https://www.vinted.pl" }
+    ];
+
+    function loadState() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) return JSON.parse(saved);
+      } catch (e) {}
+      return JSON.parse(JSON.stringify(defaultState));
+    }
+
+    let state = loadState();
+    let selectedFeedBrand = "ALL";
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch (e) {}
+    }
+
+    function applyTheme() {
+      document.documentElement.classList.toggle("dark", !!state.settings.dark);
+      document.getElementById("themeToggle").checked = !!state.settings.dark;
+    }
+
+    function updateStatusHeader() {
+      const activeCount = state.filters.filter(f => f.active).length;
+      const dot = document.getElementById("statusDot");
+      const text = document.getElementById("statusText");
+      if (activeCount > 0) {
+        dot.classList.remove("paused");
+        text.textContent = `РђРєС‚РёРІРЅРѕ вЂў ${activeCount}`;
+      } else {
+        dot.classList.add("paused");
+        text.textContent = "РќР° РїР°СѓР·Рµ";
+      }
+    }
+
+    function renderFilters() {
+      const list = document.getElementById("filtersList");
+      updateStatusHeader();
+
+      if (!state.filters.length) {
+        list.innerHTML = `<div class="empty-state">РќРµС‚ РґРѕР±Р°РІР»РµРЅРЅС‹С… С„РёР»СЊС‚СЂРѕРІ.<br>РќР°Р¶РјРёС‚Рµ В«+ Р”РѕР±Р°РІРёС‚СЊВ», С‡С‚РѕР±С‹ РЅР°С‡Р°С‚СЊ РјРѕРЅРёС‚РѕСЂРёРЅРі.</div>`;
+        return;
+      }
+
+      list.innerHTML = state.filters.map(f => {
+        const catDisplay = f.category && f.category.trim() ? f.category.trim() : "Р›СЋР±Р°СЏ РєР°С‚РµРіРѕСЂРёСЏ";
+        const sizeDisplay = f.sizes && f.sizes.length ? `Р Р°Р·РјРµСЂ: ${f.sizes.join(", ")}` : "Р›СЋР±РѕР№ СЂР°Р·РјРµСЂ";
+        return `
+          <div class="filter-card ${f.active ? "" : "inactive"}">
+            <div class="filter-top">
+              <div>
+                <div class="filter-brand">${escapeHtml(f.brand)}</div>
+                <div class="filter-cat">${escapeHtml(catDisplay)}</div>
+              </div>
+              <div class="filter-actions">
+                <label class="switch">
+                  <input type="checkbox" ${f.active ? "checked" : ""} onchange="toggleFilter(${f.id})">
+                  <span class="slider"></span>
+                </label>
+                <button class="delete-btn" onclick="deleteFilter(${f.id})" title="РЈРґР°Р»РёС‚СЊ">&times;</button>
+              </div>
+            </div>
+            <div class="filter-meta">
+              <span class="meta-badge">РґРѕ ${f.max_price} PLN</span>
+              <span class="meta-badge">${escapeHtml(sizeDisplay)}</span>
+              ${f.condition && f.condition !== "Р›СЋР±РѕРµ" ? `<span class="meta-badge">${escapeHtml(f.condition)}</span>` : ""}
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderFeed() {
+      const chipsContainer = document.getElementById("feedFilterChips");
+      const feedContainer = document.getElementById("feedList");
+      const brands = ["ALL", ...new Set(state.filters.map(f => f.brand))];
+
+      chipsContainer.innerHTML = brands.map(b => `
+        <button class="chip ${selectedFeedBrand === b ? "active" : ""}" onclick="setFeedBrand('${escapeHtml(b)}')">
+          ${b === "ALL" ? "Р’СЃРµ" : escapeHtml(b)}
+        </button>
+      `).join("");
+
+      const filtered = selectedFeedBrand === "ALL"
+        ? mockFeed
+        : mockFeed.filter(item => item.brand.toLowerCase() === selectedFeedBrand.toLowerCase());
+
+      if (!filtered.length) {
+        feedContainer.innerHTML = `<div class="empty-state">РџРѕРєР° РЅРµС‚ РЅР°С…РѕРґРѕРє РїРѕ РІС‹Р±СЂР°РЅРЅРѕРјСѓ С„РёР»СЊС‚СЂСѓ.</div>`;
+        return;
+      }
+
+      feedContainer.innerHTML = filtered.map(item => `
+        <div class="feed-card">
+          <div>
+            <div class="feed-title">${escapeHtml(item.title)}</div>
+            <div class="feed-sub">${escapeHtml(item.brand)} вЂў Р Р°Р·РјРµСЂ ${escapeHtml(item.size)} вЂў ${item.time}</div>
+          </div>
+          <div class="feed-right">
+            <div class="feed-price">${item.price} PLN</div>
+            <a href="${item.url}" target="_blank" class="link-btn">Vinted в†—</a>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    window.setFeedBrand = function(brand) {
+      selectedFeedBrand = brand;
+      renderFeed();
+    };
+
+    window.toggleFilter = function(id) {
+      const target = state.filters.find(f => f.id === id);
+      if (target) {
+        target.active = !target.active;
         saveState();
         renderFilters();
-        modal.classList.remove("open");
-      });
-
-      function syncSettingsInputs() {
-        document.getElementById("intervalSelect").value = String(state.settings.interval || 60);
-        document.getElementById("plnRateInput").value = String(state.settings.pln_rate || 0.85);
-        document.getElementById("dealThresholdInput").value = String(state.settings.deal_threshold || 25);
-        document.getElementById("silentToggle").checked = !!state.settings.silent;
-        document.getElementById("apiUrlInput").value = state.settings.api_url || "";
-        document.getElementById("proxiesTextarea").value = (state.settings.proxies || []).join("\n");
       }
+    };
 
-      function readSettingsInputs() {
-        state.settings.interval = Number(document.getElementById("intervalSelect").value) || 60;
-        state.settings.pln_rate = Number(document.getElementById("plnRateInput").value) || 0.85;
-        state.settings.deal_threshold = Number(document.getElementById("dealThresholdInput").value) || 25;
-        state.settings.silent = document.getElementById("silentToggle").checked;
-        state.settings.api_url = document.getElementById("apiUrlInput").value.trim();
-        state.settings.proxies = document.getElementById("proxiesTextarea").value
-          .split("\n")
-          .map(s => s.trim())
-          .filter(Boolean);
-        saveState();
-        renderFeed();
-      }
-
-      ["intervalSelect", "plnRateInput", "dealThresholdInput", "silentToggle", "apiUrlInput", "proxiesTextarea"]
-        .forEach(id => {
-          document.getElementById(id).addEventListener("change", readSettingsInputs);
-        });
-
-      document.getElementById("sendBotBtn").addEventListener("click", () => {
-        readSettingsInputs();
-        const payload = JSON.stringify({
-          filters: state.filters,
-          settings: state.settings
-        });
-
-        if (tg && typeof tg.sendData === "function") {
-          tg.sendData(payload);
-        } else {
-          window.prompt("JSON готов к отправке боту (скопируйте):", payload);
-        }
-      });
-
-      syncSettingsInputs();
+    window.deleteFilter = function(id) {
+      state.filters = state.filters.filter(f => f.id !== id);
+      saveState();
       renderFilters();
       renderFeed();
-      fetchLiveFeed();
-    })();
+    };
+
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, m => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
+      }[m]));
+    }
+
+    // Tabs switching
+    document.querySelectorAll(".tab-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+        document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById(`tab-${btn.dataset.tab}`).classList.add("active");
+      });
+    });
+
+    // Modal handling
+    const modal = document.getElementById("filterModal");
+    const errorEl = document.getElementById("formError");
+
+    document.getElementById("openModalBtn").addEventListener("click", () => {
+      document.getElementById("brandInput").value = "";
+      document.getElementById("categoryInput").value = "";
+      document.getElementById("minPriceInput").value = "";
+    document.getElementById("priceInput").value = "";
+      errorEl.style.display = "none";
+
+      document.querySelectorAll("#brandChips .chip, #categoryChips .chip").forEach(c => c.classList.remove("active"));
+      document.querySelectorAll("#sizeChips .chip").forEach(c => c.classList.toggle("active", c.dataset.size === "ANY"));
+      document.querySelectorAll("#conditionChips .chip").forEach(c => c.classList.toggle("active", c.dataset.cond === "Р›СЋР±РѕРµ"));
+
+      modal.classList.add("open");
+    });
+
+    document.getElementById("closeModalBtn").addEventListener("click", () => modal.classList.remove("open"));
+    modal.addEventListener("click", e => {
+      if (e.target === modal) modal.classList.remove("open");
+    });
+
+    // Quick brand chips
+    document.querySelectorAll("#brandChips .chip").forEach(chip => {
+      chip.addEventListener("click", () => {
+        document.getElementById("brandInput").value = chip.dataset.val;
+        document.querySelectorAll("#brandChips .chip").forEach(c => c.classList.remove("active"));
+        chip.classList.add("active");
+      });
+    });
+
+    // Quick category chips (toggleable so user can unselect!)
+    document.querySelectorAll("#categoryChips .chip").forEach(chip => {
+      chip.addEventListener("click", () => {
+        const input = document.getElementById("categoryInput");
+        if (chip.classList.contains("active")) {
+          chip.classList.remove("active");
+          input.value = "";
+        } else {
+          document.querySelectorAll("#categoryChips .chip").forEach(c => c.classList.remove("active"));
+          chip.classList.add("active");
+          input.value = chip.dataset.val;
+        }
+      });
+    });
+
+    // Multi-select size chips
+    document.querySelectorAll("#sizeChips .chip").forEach(chip => {
+      chip.addEventListener("click", () => {
+        const size = chip.dataset.size;
+        const anyChip = document.querySelector('#sizeChips .chip[data-size="ANY"]');
+        if (size === "ANY") {
+          document.querySelectorAll("#sizeChips .chip").forEach(c => c.classList.remove("active"));
+          anyChip.classList.add("active");
+        } else {
+          anyChip.classList.remove("active");
+          chip.classList.toggle("active");
+          const anySelected = document.querySelectorAll("#sizeChips .chip.active").length > 0;
+          if (!anySelected) anyChip.classList.add("active");
+        }
+      });
+    });
+
+    // Condition chips
+    document.querySelectorAll("#conditionChips .chip").forEach(chip => {
+      chip.addEventListener("click", () => {
+        document.querySelectorAll("#conditionChips .chip").forEach(c => c.classList.remove("active"));
+        chip.classList.add("active");
+      });
+    });
+
+    // Create filter (Category is completely OPTIONAL)
+    document.getElementById("createFilterBtn").addEventListener("click", () => {
+      const brand = document.getElementById("brandInput").value.trim();
+      const category = document.getElementById("categoryInput").value.trim(); // optional!
+      const priceVal = parseFloat(document.getElementById("priceInput").value);
+
+      if (!brand) {
+        errorEl.textContent = "РЈРєР°Р¶РёС‚Рµ Р±СЂРµРЅРґ РёР»Рё РїРѕРёСЃРєРѕРІС‹Р№ Р·Р°РїСЂРѕСЃ.";
+        errorEl.style.display = "block";
+        return;
+      }
+
+      if (!priceVal || priceVal <= 0) {
+        errorEl.textContent = "РЈРєР°Р¶РёС‚Рµ РјР°РєСЃРёРјР°Р»СЊРЅСѓСЋ С†РµРЅСѓ РІ PLN.";
+        errorEl.style.display = "block";
+        return;
+      }
+
+      const activeSizes = Array.from(document.querySelectorAll("#sizeChips .chip.active"))
+        .map(c => c.dataset.size)
+        .filter(s => s !== "ANY");
+
+      const activeCond = document.querySelector("#conditionChips .chip.active")?.dataset.cond || "Р›СЋР±РѕРµ";
+
+      const selectedCategories = Array.from(document.querySelectorAll("#categoryChips .chip.active")).map(c => c.dataset.val);
+      const manualCategories = category.split(",").map(x => x.trim()).filter(Boolean);
+      const finalCategories = Array.from(new Set([...selectedCategories, ...manualCategories]));
+      const minPriceVal = Number(document.getElementById("minPriceInput")?.value || 0);
+      if (minPriceVal > 0 && priceVal > 0 && minPriceVal > priceVal) {
+        errorEl.textContent = "РњРёРЅРёРјР°Р»СЊРЅР°СЏ С†РµРЅР° РЅРµ РјРѕР¶РµС‚ Р±С‹С‚СЊ Р±РѕР»СЊС€Рµ РјР°РєСЃРёРјР°Р»СЊРЅРѕР№.";
+        errorEl.style.display = "block";
+        return;
+      }
+      state.filters.unshift({
+        id: Date.now(),
+        brand,
+        category: finalCategories.join(", "),
+        categories: finalCategories,
+        sizes: activeSizes,
+        min_price: minPriceVal,
+        max_price: priceVal,
+        condition: activeCond,
+        active: true
+      });
+
+      saveState();
+      renderFilters();
+      renderFeed();
+      modal.classList.remove("open");
+    });
+
+    // Settings listeners
+    document.getElementById("intervalSelect").value = String(state.settings.interval || 60);
+    document.getElementById("silentToggle").checked = !!state.settings.silent;
+
+    document.getElementById("intervalSelect").addEventListener("change", e => {
+      state.settings.interval = parseInt(e.target.value, 10);
+      saveState();
+    });
+
+    document.getElementById("silentToggle").addEventListener("change", e => {
+      state.settings.silent = e.target.checked;
+      saveState();
+    });
+
+    document.getElementById("themeToggle").addEventListener("change", e => {
+      state.settings.dark = e.target.checked;
+      applyTheme();
+      saveState();
+    });
+
+    // Send data to Telegram bot
+    document.getElementById("syncBtn").addEventListener("click", () => {
+      const payload = {
+        filters: state.filters,
+        settings: state.settings
+      };
+      const jsonStr = JSON.stringify(payload);
+
+      if (tg && tg.sendData) {
+        tg.sendData(jsonStr);
+      } else {
+        alert("Р”Р°РЅРЅС‹Рµ РіРѕС‚РѕРІС‹ Рє РѕС‚РїСЂР°РІРєРµ Р±РѕС‚Сѓ:
+
+" + jsonStr);
+      }
+    });
+
+    applyTheme();
+    renderFilters();
+    renderFeed();
   </script>
 </body>
 </html>
